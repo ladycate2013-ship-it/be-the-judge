@@ -225,7 +225,7 @@ const MOCK_SCHEDULE = [
     b: "フランク・マーティン",
   },
 ];
-
+const schedule = import.meta.env.DEV ? MOCK_SCHEDULE : [];
 // スタイル
 const TAB_H = 64;
 
@@ -1134,19 +1134,76 @@ export default function App() {
   const [lastSyncedAt, setLastSyncedAt] = useState(null);
   const [homeView, setHomeView] = useState("list"); // list / score
   const [events, setEvents] = useState([]);
+  const [hasSyncedOnce, setHasSyncedOnce] = useState(false);
+
   // --- ICS同期を手動でも呼べるように関数化 ---
-  const handleSync = async () => {
-    try {
-      setSyncing(true);
-      await runIcsSync();
-      await fetchEvents();
-      setLastSyncedAt(new Date().toLocaleString());
-    } catch (e) {
-      console.error("同期エラー:", e);
-    } finally {
-      setSyncing(false);
-    }
-  };
+const handleSync = useCallback(async () => {
+  try {
+    setSyncing(true);
+    await runIcsSync();
+    await fetchEvents();
+    setLastSyncedAt(new Date().toLocaleString());
+    setHasSyncedOnce(true);
+  } catch (e) {
+    console.error("同期エラー:", e);
+  } finally {
+    setSyncing(false);
+  }
+}, [fetchEvents]); // ← runIcsSync は依存から外す
+
+
+
+  // スコアカード状態
+const [fightId, setFightId] = useState("");
+const [fighterA, setFighterA] = useState("");
+const [fighterB, setFighterB] = useState("");
+
+  const [avatarA] = useState("");
+  const [avatarB] = useState("");
+
+  const [rounds, setRounds] = useState(() => {
+    const map = JSON.parse(localStorage.getItem("rounds_map") || "{}");
+    return (
+      map[fightId] ||
+      Array.from({ length: DEFAULT_ROUNDS }, (_, i) => ({
+        r: i + 1,
+        a: "",
+        b: "",
+      }))
+    );
+  });
+
+useEffect(() => {
+  if (!fightId) return;
+
+  const map = JSON.parse(localStorage.getItem("rounds_map") || "{}");
+  const saved = map[fightId];
+
+  setRounds(
+    saved ||
+      Array.from({ length: DEFAULT_ROUNDS }, (_, i) => ({
+        r: i + 1,
+        a: "",
+        b: "",
+      }))
+  );
+}, [fightId]);
+
+const setScore = (i, aVal, bVal) => {
+  if (!fightId) return;
+
+  setRounds((arr) => {
+    const next = [...arr];
+    next[i] = { ...next[i], a: aVal, b: bVal };
+
+    const map = JSON.parse(localStorage.getItem("rounds_map") || "{}");
+    map[fightId] = next;
+    localStorage.setItem("rounds_map", JSON.stringify(map));
+
+    return next;
+  });
+};
+
 
   const fetchEvents = useCallback(async () => {
     const now = new Date();
@@ -1197,24 +1254,23 @@ export default function App() {
     setEvents(selected.map(makeFightFromEvent));
   }, []);
 
-  // スコアカード状態
-  const [fightId, setFightId] = useState(MOCK_SCHEDULE[0].id);
-  const [fighterA, setFighterA] = useState(MOCK_SCHEDULE[0].a);
-  const [fighterB, setFighterB] = useState(MOCK_SCHEDULE[0].b);
-  const [avatarA] = useState("");
-  const [avatarB] = useState("");
+useEffect(() => {
+  fetchEvents(); // 起動時に自動取得
+}, [fetchEvents]);
 
-  const [rounds, setRounds] = useState(() => {
-    const map = JSON.parse(localStorage.getItem("rounds_map") || "{}");
-    return (
-      map[fightId] ||
-      Array.from({ length: DEFAULT_ROUNDS }, (_, i) => ({
-        r: i + 1,
-        a: "",
-        b: "",
-      }))
-    );
-  });
+useEffect(() => {
+  // すでに選択中なら何もしない（ユーザー操作を尊重）
+  if (fightId) return;
+
+  // eventsがあればそれを採用、なければ（DEVだけ）MOCK
+   if (events.length > 0) {
+    const f = events[0]; // makeFightFromEvent 済み
+    setFightId(f.id);
+    setFighterA(f.a);
+    setFighterB(f.b);
+    return;
+  }
+}, [events, fightId]);
 
   // ダミー平均（接続後はRPCで実値化）
   const EMPTY_AVG = Array.from({ length: DEFAULT_ROUNDS }, () => ({}));
