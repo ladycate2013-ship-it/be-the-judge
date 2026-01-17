@@ -1136,61 +1136,6 @@ export default function App() {
   const [events, setEvents] = useState([]);
   const [hasSyncedOnce, setHasSyncedOnce] = useState(false);
 
-  // --- ICS同期を手動でも呼べるように関数化 ---
-const handleSync = useCallback(async () => {
-  try {
-    setSyncing(true);
-    await runIcsSync();
-    await fetchEvents();
-    setLastSyncedAt(new Date().toLocaleString());
-    setHasSyncedOnce(true);
-  } catch (e) {
-    console.error("同期エラー:", e);
-  } finally {
-    setSyncing(false);
-  }
-}, [fetchEvents]); // ← runIcsSync は依存から外す
-
-
-
-  // スコアカード状態
-const [fightId, setFightId] = useState("");
-const [fighterA, setFighterA] = useState("");
-const [fighterB, setFighterB] = useState("");
-
-  const [avatarA] = useState("");
-  const [avatarB] = useState("");
-
-  const [rounds, setRounds] = useState(() => {
-    const map = JSON.parse(localStorage.getItem("rounds_map") || "{}");
-    return (
-      map[fightId] ||
-      Array.from({ length: DEFAULT_ROUNDS }, (_, i) => ({
-        r: i + 1,
-        a: "",
-        b: "",
-      }))
-    );
-  });
-
-useEffect(() => {
-  if (!fightId) return;
-
-  const map = JSON.parse(localStorage.getItem("rounds_map") || "{}");
-  const saved = map[fightId];
-
-  setRounds(
-    saved ||
-      Array.from({ length: DEFAULT_ROUNDS }, (_, i) => ({
-        r: i + 1,
-        a: "",
-        b: "",
-      }))
-  );
-}, [fightId]);
-
-
-
 
   const fetchEvents = useCallback(async () => {
     const now = new Date();
@@ -1244,6 +1189,62 @@ useEffect(() => {
 useEffect(() => {
   fetchEvents(); // 起動時に自動取得
 }, [fetchEvents]);
+
+  // --- ICS同期を手動でも呼べるように関数化 ---
+const handleSync = useCallback(async () => {
+  try {
+    setSyncing(true);
+    await runIcsSync();
+    await fetchEvents();
+    setLastSyncedAt(new Date().toLocaleString());
+    setHasSyncedOnce(true);
+  } catch (e) {
+    console.error("同期エラー:", e);
+  } finally {
+    setSyncing(false);
+  }
+}, [fetchEvents]); //
+
+  // スコアカード状態
+const [fightId, setFightId] = useState("");
+const [fighterA, setFighterA] = useState("");
+const [fighterB, setFighterB] = useState("");
+
+  const [avatarA] = useState("");
+  const [avatarB] = useState("");
+
+  const [rounds, setRounds] = useState(() => {
+    const map = JSON.parse(localStorage.getItem("rounds_map") || "{}");
+    return (
+      map[fightId] ||
+      Array.from({ length: DEFAULT_ROUNDS }, (_, i) => ({
+        r: i + 1,
+        a: "",
+        b: "",
+      }))
+    );
+  });
+
+useEffect(() => {
+  if (!fightId) return;
+
+  const map = JSON.parse(localStorage.getItem("rounds_map") || "{}");
+  const saved = map[fightId];
+
+  setRounds(
+    saved ||
+      Array.from({ length: DEFAULT_ROUNDS }, (_, i) => ({
+        r: i + 1,
+        a: "",
+        b: "",
+      }))
+  );
+}, [fightId]);
+
+
+
+
+
 
 useEffect(() => {
   // すでに選択中なら何もしない（ユーザー操作を尊重）
