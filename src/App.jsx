@@ -1189,20 +1189,7 @@ useEffect(() => {
   );
 }, [fightId]);
 
-const setScore = (i, aVal, bVal) => {
-  if (!fightId) return;
 
-  setRounds((arr) => {
-    const next = [...arr];
-    next[i] = { ...next[i], a: aVal, b: bVal };
-
-    const map = JSON.parse(localStorage.getItem("rounds_map") || "{}");
-    map[fightId] = next;
-    localStorage.setItem("rounds_map", JSON.stringify(map));
-
-    return next;
-  });
-};
 
 
   const fetchEvents = useCallback(async () => {
@@ -1376,17 +1363,23 @@ useEffect(() => {
 
   const fmt1 = (x) => (x === "" || x == null ? "-" : Number(x).toFixed(1));
 
-  // スコア保存（試合ごと）
-  const setScore = (i, aVal, bVal) => {
-    setRounds((arr) => {
-      const next = [...arr];
-      next[i] = { ...next[i], a: aVal, b: bVal };
-      const map = JSON.parse(localStorage.getItem("rounds_map") || "{}");
-      map[fightId] = next;
-      localStorage.setItem("rounds_map", JSON.stringify(map));
-      return next;
-    });
-  };
+// スコア保存（試合ごと）
+// スコア保存（試合ごと）
+const setRoundScore = (i, aVal, bVal) => {
+  if (!fightId) return;
+
+  setRounds((arr) => {
+    const next = [...arr];
+    next[i] = { ...next[i], a: aVal, b: bVal };
+
+    const map = JSON.parse(localStorage.getItem("rounds_map") || "{}");
+    map[fightId] = next;
+    localStorage.setItem("rounds_map", JSON.stringify(map));
+
+    return next;
+  });
+};
+
 
   const EMPTY_ROUNDS = Array.from({ length: DEFAULT_ROUNDS }, (_, i) => ({
     r: i + 1,
@@ -1734,7 +1727,7 @@ useEffect(() => {
                       onClick={() => {
                         const seq = nextSeq(rd.a, rd.b, "A");
                         const p = toPair("A", seq);
-                        setScore(i, p.a, p.b);
+                        setRoundScore(i, p.a, p.b);
                       }}
                       role="button"
                       tabIndex={0}
@@ -1743,7 +1736,7 @@ useEffect(() => {
                         (() => {
                           const seq = nextSeq(rd.a, rd.b, "A");
                           const p = toPair("A", seq);
-                          setScore(i, p.a, p.b);
+                          setRoundScore(i, p.a, p.b);
                         })()
                       }
                       style={{
@@ -1760,11 +1753,11 @@ useEffect(() => {
 
                     {/* 中央：平均表示（タップで 10-10） */}
                     <div
-                      onClick={() => setScore(i, 10, 10)}
+                      onClick={() => setRoundScore(i, 10, 10)}
                       role="button"
                       tabIndex={0}
                       onKeyDown={(e) =>
-                        e.key === "Enter" && setScore(i, 10, 10)
+                        e.key === "Enter" && setRoundScore(i, 10, 10)
                       }
                       style={{
                         ...tapStyles.cell,
@@ -1815,7 +1808,7 @@ useEffect(() => {
                       onClick={() => {
                         const seq = nextSeq(rd.a, rd.b, "B");
                         const p = toPair("B", seq);
-                        setScore(i, p.a, p.b);
+                        setRoundScore(i, p.a, p.b);
                       }}
                       role="button"
                       tabIndex={0}
@@ -1824,7 +1817,7 @@ useEffect(() => {
                         (() => {
                           const seq = nextSeq(rd.a, rd.b, "B");
                           const p = toPair("B", seq);
-                          setScore(i, p.a, p.b);
+                          setRoundScore(i, p.a, p.b);
                         })()
                       }
                       style={{
