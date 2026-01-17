@@ -1279,7 +1279,63 @@ useEffect(() => {
   const [foty, setFoty] = useState(false);
 
   // スケジュール & MY PAGE
-  const [schedule] = useState(MOCK_SCHEDULE);
+  // スケジュール & MY PAGE
+const [schedule, setSchedule] = useState([]);
+const [loadingSchedule, setLoadingSchedule] = useState(true);
+const [scheduleError, setScheduleError] = useState(null);
+
+useEffect(() => {
+  let alive = true;
+
+  (async () => {
+    try {
+      setLoadingSchedule(true);
+      setScheduleError(null);
+
+      const nowIso = new Date().toISOString();
+
+      // 過去2件
+      const pastReq = supabase
+        .from("events")
+        .select("id, title, start")
+        .lt("start", nowIso)
+        .order("start", { ascending: false })
+        .limit(2);
+
+      // 未来6件
+      const futureReq = supabase
+        .from("events")
+        .select("id, title, start")
+        .gte("start", nowIso)
+        .order("start", { ascending: true })
+        .limit(6);
+
+      const [{ data: past, error: pastErr }, { data: future, error: futureErr }] =
+        await Promise.all([pastReq, futureReq]);
+
+      if (pastErr) throw pastErr;
+      if (futureErr) throw futureErr;
+
+      const merged = [
+        ...((past ?? []).slice().reverse()),
+        ...(future ?? []),
+      ];
+
+      if (alive) setSchedule(merged);
+    } catch (e) {
+      if (!alive) return;
+      setScheduleError(e);
+
+      // 開発中の見本はOK（取得失敗時だけ）
+      if (import.meta.env.DEV) setSchedule(MOCK_SCHEDULE);
+    } finally {
+      if (alive) setLoadingSchedule(false);
+    }
+  })();
+
+  return () => { alive = false; };
+}, []);
+
   const [myScores, setMyScores] = useState(() =>
     JSON.parse(localStorage.getItem("my_scores") || "[]")
   );
@@ -1884,8 +1940,6 @@ useEffect(() => {
     }, [onlyPast, pastArr, visibleCount, events, schedule]);
     const demoTotalAvg = { a: 0, b: 0 }; //
 
-    // デバッグ（確認したら消してOK）
-    console.log("events from DB:", events?.length, events?.[0]);
 
     // ✅ PFP集計（localStorage: "pfp_votes"）
     const pfpTop = React.useMemo(() => {
