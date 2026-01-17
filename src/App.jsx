@@ -1364,8 +1364,7 @@ useEffect(() => {
   const fmt1 = (x) => (x === "" || x == null ? "-" : Number(x).toFixed(1));
 
 // スコア保存（試合ごと）
-// スコア保存（試合ごと）
-const setRoundScore = (i, aVal, bVal) => {
+function setRoundScore(i, aVal, bVal) {
   if (!fightId) return;
 
   setRounds((arr) => {
@@ -1378,7 +1377,7 @@ const setRoundScore = (i, aVal, bVal) => {
 
     return next;
   });
-};
+}
 
 
   const EMPTY_ROUNDS = Array.from({ length: DEFAULT_ROUNDS }, (_, i) => ({
