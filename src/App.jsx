@@ -71,6 +71,23 @@ export const FIGHTER_IMAGES = {
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_i73fvji73fvji73f.png",
   [normalizeName("Gervonta Davis")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_i73fvji73fvji73f.png",
+
+[normalizeName("セバスチャン・エルナンデス")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_p4uu9op4uu9op4uu.png",
+  [normalizeName("Sebastian Hernandez")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_p4uu9op4uu9op4uu.png",
+
+[normalizeName("アラン・ピカソ")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_a5a372a5a372a5a3.png",
+  [normalizeName("David Picasso")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_a5a372a5a372a5a3.png",
+
+
+[normalizeName("アンディ・クルス")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_vkxnxyvkxnxyvkxn.png",
+  [normalizeName("Andy Cruz")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_vkxnxyvkxnxyvkxn.png",
+
 };
 
 // 読み取りヘルパー
@@ -163,6 +180,7 @@ const makeFightFromEvent = (ev) => {
     b,
     title: ev.title || "",
     location: ev.location || "",
+   description: ev.description || "",
     platform,
     platformUrl: platform ? WATCH_PROVIDERS[platform]?.url : null,
     platformLabel: platform ? WATCH_PROVIDERS[platform]?.label : null,
