@@ -93,7 +93,7 @@ export const FIGHTER_IMAGES = {
   [normalizeName("Raymond Muratalla")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/muratara.png",
 
-[normalizeName("アッバス・バラオウ")]:
+[normalizeName("アバス・バラオウ")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/baraou.png",
   [normalizeName("Abass Baraou")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/baraou.png",
@@ -925,7 +925,7 @@ const NAME_ROMAJI_DICT = {
   井上尚弥: "Inoue",
   中谷潤人: "Nakatani",
   寺地拳四朗: "Teraji",
-  堤聖也: "Tstumi",
+  堤聖也: "Tsutsumi",
   ウシク: "Usyk",
   デュボア: "Dubois",
   ネリ: "Nery",
@@ -937,16 +937,46 @@ const NAME_ROMAJI_DICT = {
   ベテルビエフ: "Beterbiev",
   ビボル: "Bivol",
   ベナビデス: "Benavidez",
-  クロフォード: "Crawford",
   スペンス: "Spence",
   エニス: "Ennis",
   "ジェシー・ロドリゲス": "Rodriguez",
   "テオフィモ・ロペス": "Lopez",
   エスピノサ: "Espinoza",
   ロペス: "Lopez",
-  ベン: "benn",
+  ベン: "Benn",
   ユーバンク: "Eubank",
 };
+
+function normalizeName(s) {
+  return String(s || "")
+    .trim()
+    .replace(/[（）\(\)\[\]【】]/g, "")
+    .replace(/[・･]/g, " ")
+    .replace(/[’'`]/g, "")
+    .replace(/[ー~−–—]/g, "-")
+    .replace(/\s+/g, " ");
+}
+const NAME_ALIAS_DICT = [
+  { keys: ["ブルース キャリントン", "ブルースキャリントン", "キャリントン", "bruce carrington"], value: "Carrington" },
+  // 必要に応じて増やす（valueは基本“名字だけ”）
+];
+
+function lookupAliasRomaji(name) {
+  const n = normalizeName(name).toLowerCase();
+  for (const item of NAME_ALIAS_DICT) {
+    for (const k of item.keys) {
+      const kk = normalizeName(k).toLowerCase();
+      if (n === kk || n.includes(kk) || kk.includes(n)) return item.value;
+    }
+  }
+  return "";
+}
+function pickLastTokenRomaji(romajiLike) {
+  const s = normalizeName(romajiLike).replace(/-/g, " ");
+  const parts = s.split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return "";
+  return parts[parts.length - 1];
+}
 
 // カナ→ローマ字（簡易ヘボン式・拗音/濁音中心）
 function kanaToRomaji(kana) {
@@ -1116,11 +1146,26 @@ function kanaToRomaji(kana) {
 
 function toRomajiPreferDict(name) {
   if (!name) return "";
-  if (NAME_ROMAJI_DICT[name]) return NAME_ROMAJI_DICT[name];
-  // カタカナ/ひらがな主体なら変換
-  if (/^[\p{Script=Hiragana}\p{Script=Katakana}・ー\s]+$/u.test(name))
-    return kanaToRomaji(name);
-  return name; // 既に英字などはそのまま
+
+  // ① 部分一致エイリアス（最優先）
+  const alias = lookupAliasRomaji(name);
+  if (alias) return alias;
+
+  // ② 既存の完全一致辞書（正規化したキーで見る）
+  const norm = normalizeName(name);
+  if (NAME_ROMAJI_DICT[norm]) return NAME_ROMAJI_DICT[norm];
+
+  // ③ カナ主体ならローマ字化
+  if (/^[\p{Script=Hiragana}\p{Script=Katakana}・ー\s\-]+$/u.test(norm))
+    return kanaToRomaji(norm);
+
+  // ④ 英字っぽいなら “名字だけ” に寄せる
+  if (/^[a-zA-Z\s\-.']+$/.test(norm)) {
+    return pickLastTokenRomaji(norm);
+  }
+
+  // ⑤ 最後の手段：そのまま
+  return norm;
 }
 
 function buildFightHashtag(a, b) {
@@ -2029,7 +2074,7 @@ function setRoundScore(i, aVal, bVal) {
                   onClick={handleSync}
                   disabled={syncing}
                 >
-                  {syncing ? "同期中..." : "今すぐ同期"}
+                  {syncing ? "同期中..." : "👉カレンダー📅更新を反映"}
                 </button>
                 {lastSyncedAt && (
                   <span
