@@ -88,6 +88,42 @@ export const FIGHTER_IMAGES = {
   [normalizeName("Andy Cruz")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_vkxnxyvkxnxyvkxn.png",
 
+[normalizeName("レイモンド・ムラタラ")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/01/muratara.png",
+  [normalizeName("Raymond Muratalla")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/01/muratara.png",
+
+[normalizeName("アッバス・バラオウ")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/01/baraou.png",
+  [normalizeName("Abass Baraou")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/01/baraou.png",
+
+[normalizeName("ザンダー・ザヤス")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/01/zayas.png",
+  [normalizeName("Xander Zayas")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/01/zayas.png",
+
+[normalizeName("カルロス・カストロ")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/01/castro.png",
+  [normalizeName("Carlos Castro")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/01/castro.png",
+
+[normalizeName("ブルース・キャリントン")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/01/carington.png",
+  [normalizeName("Bruce Carrington")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/01/carington.png",
+
+[normalizeName("テオフィモ・ロペス")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_kr7a1qkr7a1qkr7a.png",
+  [normalizeName("Teofimo Lopez")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_kr7a1qkr7a1qkr7a.png",
+
+[normalizeName("シャクール・スティーブンソン")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_jlvqcojlvqcojlvq.png",
+  [normalizeName("Shakur Stevenson")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_jlvqcojlvqcojlvq.png",
+
+
 };
 
 // 読み取りヘルパー
@@ -101,7 +137,7 @@ const EDGE_FN = "clever-responder"; // ← supabaseの関数名
 // App() 内のどこかで補助関数を用意（イベント→採点用オブジェクト）
 /// 視聴プロバイダ（アフィURLに差し替えてOK）
 const WATCH_PROVIDERS = {
-  dazn: { label: "DAZN👆", url: "http://mentalblock.but.jp/ko/ydazn2" },
+  dazn: { label: "DAZN👆", url: "https://t.felmat.net/fmcl?ak=U3498N.1.A120908Z.E1084389" },
   lemino: { label: "Lemino👆", url: "http://mentalblock.but.jp/ko/lemino" },
   prime: { label: "Prime Video👆", url: "https://amzn.to/4otRkAj" },
   wowow: { label: "WOWOW👆", url: "http://mentalblock.but.jp/ko/wowow" },
