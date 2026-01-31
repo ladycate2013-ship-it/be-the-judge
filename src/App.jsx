@@ -1312,25 +1312,23 @@ export default function App() {
   }, []);
 
 useEffect(() => {
-  const key = "ics_last_synced_at";
-  const last = Number(localStorage.getItem(key) || 0);
-  const SIX_HOURS = 6 * 60 * 60 * 1000;
+fetchEvents(); // 起動時に自動取得
+}, [fetchEvents]);
 
-  (async () => {
-    // 6時間以上空いてたら同期してから表示更新
-    if (!last || Date.now() - last > SIX_HOURS) {
-      await fetchEvents();
-      localStorage.setItem(key, String(Date.now()));
-
-      // handleSyncの中でfetchEventsしてない場合だけ有効化
-      // await fetchEvents();
-      return;
-    }
-
-    // 最近同期済みなら表示だけ更新
+  // --- ICS同期を手動でも呼べるように関数化 ---
+const handleSync = useCallback(async () => {
+  try {
+    setSyncing(true);
+    await runIcsSync();
     await fetchEvents();
-  })();
-}, [handleSync, fetchEvents]);
+    setLastSyncedAt(new Date().toLocaleString());
+    setHasSyncedOnce(true);
+  } catch (e) {
+    console.error("同期エラー:", e);
+  } finally {
+    setSyncing(false);
+  }
+}, [fetchEvents]); //
 
   // スコアカード状態
 const [fightId, setFightId] = useState("");
@@ -1371,24 +1369,21 @@ useEffect(() => {
 
 
 
+
+
 useEffect(() => {
-  fetchEvents(); // 起動時にDBから取得して表示
-}, [fetchEvents]);
-
-
-//useEffect(() => {
   // すでに選択中なら何もしない（ユーザー操作を尊重）
-//  if (fightId) return;
+  if (fightId) return;
 
   // eventsがあればそれを採用、なければ（DEVだけ）MOCK
- //  if (events.length > 0) {
- //   const f = events[0]; // makeFightFromEvent 済み
- //   setFightId(f.id);
- //   setFighterA(f.a);
- //   setFighterB(f.b);
-  //  return;
- // }
-//}, [events, fightId]);
+   if (events.length > 0) {
+    const f = events[0]; // makeFightFromEvent 済み
+    setFightId(f.id);
+    setFighterA(f.a);
+    setFighterB(f.b);
+    return;
+  }
+}, [events, fightId]);
 
   // ダミー平均（接続後はRPCで実値化）
   const EMPTY_AVG = Array.from({ length: DEFAULT_ROUNDS }, () => ({}));
