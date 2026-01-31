@@ -2828,46 +2828,29 @@ const Survey = ({ config }) => {
         </div>
 
         {/* 結果 */}
-        {pfpTotals.total > 0 &&
-        (!showResultsOnlyAfterVote || hasVoted || !isActive) ? (
-          <div style={{ marginTop: 12 }}>
-            <div style={{ fontSize: 11, color: "#64748b", marginBottom: 6 }}>
-              票数: {pfpTotals.total}
-            </div>
-            <div style={{ display: "grid", gap: 8 }}>
-              {pfpTotals.list.map((row) => (
-                <div
-                  key={row.opt}
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr auto",
-                    gap: 8,
-                    alignItems: "center",
-                  }}
-                >
-                  <div style={{ display: "grid", gap: 4 }}>
-                    <div style={{ fontWeight: 600, fontSize: 12 }}>
-                      {row.opt}
-                      <span style={{ marginLeft: 6, color: "#64748b" }}>
-                        ({row.count})
-                      </span>
-                    </div>
-                    <Bar percent={row.percent} />
-                  </div>
-                  <div style={{ width: 60, textAlign: "right" }}>
-                    {row.percent}%
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        ) : (
-          <div style={{ marginTop: 10, fontSize: 12, color: "#64748b" }}>
-            {pfpTotals.total === 0
-              ? "まだ投票がありません。"
-              : "投票すると結果が表示されます。"}
-          </div>
-        )}
+        {results.total > 0 &&
+(!showResultsOnlyAfterVote || hasVoted || !isActive) ? (
+  <div style={{ marginTop: 12 }}>
+    <div style={{ fontSize: 11, color: "#64748b", marginBottom: 6 }}>
+      票数: {results.total}
+    </div>
+
+    <div style={{ display: "grid", gap: 8 }}>
+      {results.list.map((row) => (
+        <div key={row.opt}>
+          <div>{row.opt} ({row.count})</div>
+          <Bar percent={row.percent} />
+        </div>
+      ))}
+    </div>
+  </div>
+) : (
+  <div style={{ marginTop: 10, fontSize: 12, color: "#64748b" }}>
+    {results.total === 0
+      ? "まだ投票がありません。"
+      : "投票すると結果が表示されます。"}
+  </div>
+)}
       </div>
     </div>
   );
@@ -3078,82 +3061,85 @@ React.useEffect(() => {
           </div>
         </div>
 
-        {/* 結果カード（Top10） */}
-        <div style={{ ...styles.card, marginTop: 8 }}>
-          <div style={styles.cardContent}>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <div style={{ fontWeight: 700 }}>PFP 投票結果（Top 10）</div>
-              {pfpTotals.total > 0 && (
-                <span style={{ fontSize: 11, color: "#64748b" }}>
-                  投票総数 {pfpTotals.total}
-                </span>
-              )}
-            </div>
+ {/* ── 結果カード（Top10） ── */}
+    <div style={{ ...styles.card, marginTop: 8 }}>
+      <div style={styles.cardContent}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <div style={{ fontWeight: 700 }}>PFP 投票結果（Top 10）</div>
+          {pfpTotals.total > 0 && (
+            <span style={{ fontSize: 11, color: "#64748b" }}>
+              投票総数 {pfpTotals.total}
+            </span>
+          )}
+        </div>
 
-            {/* 表示条件：票がある && （フラグがfalse もしくは 投票済み） */}
-            {pfpTotals.total > 0 &&
-            (!SHOW_PFP_RESULTS_ONLY_AFTER_VOTE || hasVoted) ? (
-              <div style={{ marginTop: 8, display: "grid", gap: 8 }}>
-                {pfpTotals.list.map((row, i) => (
+        {/* 表示条件：票がある &&（制限なし or 投票済み） */}
+        {pfpTotals.total > 0 &&
+        (!SHOW_PFP_RESULTS_ONLY_AFTER_VOTE || hasVoted) ? (
+          <div style={{ marginTop: 8, display: "grid", gap: 8 }}>
+            {pfpTotals.list.map((row, i) => (
+              <div
+                key={row.name}
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "auto 1fr auto",
+                  gap: 8,
+                  alignItems: "center",
+                }}
+              >
+                <div style={{ width: 28, textAlign: "right" }}>
+                  {medal(i)}
+                </div>
+
+                <div style={{ display: "grid", gap: 4 }}>
                   <div
-                    key={row.name}
                     style={{
-                      display: "grid",
-                      gridTemplateColumns: "auto 1fr auto",
-                      gap: 8,
+                      display: "flex",
                       alignItems: "center",
+                      gap: 6,
                     }}
                   >
-                    <div style={{ width: 28, textAlign: "right" }}>
-                      {medal(i)}
-                    </div>
-                    <div style={{ display: "grid", gap: 4 }}>
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 6,
-                        }}
-                      >
-                        <Avatar name={row.name} />
-                        <div style={{ fontWeight: 600 }}>{row.name}</div>
-                      </div>
-                      <Bar percent={row.percent} />
-                    </div>
-                    <div
-                      style={{
-                        width: 70,
-                        textAlign: "right",
-                        fontVariantNumeric: "tabular-nums",
-                      }}
-                    >
-                      {row.percent}%
-                    </div>
+                    <Avatar name={row.name} />
+                    <div style={{ fontWeight: 600 }}>{row.name}</div>
                   </div>
-                ))}
-              </div>
-            ) : (
-              <div style={{ marginTop: 8, fontSize: 12, color: "#64748b" }}>
-                {pfpTotals.total === 0
-                  ? "まだ投票がありません。まずは1票入れてください。"
-                  : "あなたが投票するとランキングが表示されます。"}
-              </div>
-            )}
-<div style={{ marginTop: 12 }}>
-  <Survey config={SURVEY_CONFIG} />
-</div>
-          </div>
-        </div>
-      </>
-    );
-  };
+                  <Bar percent={row.percent} />
+                </div>
 
+                <div
+                  style={{
+                    width: 70,
+                    textAlign: "right",
+                    fontVariantNumeric: "tabular-nums",
+                  }}
+                >
+                  {row.percent}%
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div style={{ marginTop: 8, fontSize: 12, color: "#64748b" }}>
+            {pfpTotals.total === 0
+              ? "まだ投票がありません。まずは1票入れてください。"
+              : "あなたが投票するとランキングが表示されます。"}
+          </div>
+        )}
+      </div>
+    </div>
+
+    {/* ── アンケートは「完全に別カード」 ── */}
+    <div style={{ marginTop: 12 }}>
+      <Survey config={SURVEY_CONFIG} />
+    </div>
+  </>
+);
+}
   // レンダリング
   return (
     <div style={styles.page}>
