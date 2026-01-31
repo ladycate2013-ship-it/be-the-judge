@@ -14,138 +14,138 @@ export const FIGHTER_IMAGES = {
     "http://boxingdiagrams.com/wp-content/uploads/2025/12/Gemini_Generated_Image_iibpbiiibpbiiibp.png",
   [normalizeImageKey("テオフモ・ロペス")]:
     "http://boxingdiagrams.com/wp-content/uploads/2025/12/teofimo.png",
-  [normalizeNameKey("Teofimo Lopez")]:
+  [normalizeImageKey("Teofimo Lopez")]:
     "http://boxingdiagrams.com/wp-content/uploads/2025/12/teofimo.png",
 
-  [normalizeNameKey("ラモント・ローチ")]:
+  [normalizeImageKey("ラモント・ローチ")]:
     "http://boxingdiagrams.com/wp-content/uploads/2025/12/Gemini_Generated_Image_w6pvvhw6pvvhw6pv.png",
-  [normalizeNameKey("Lamont Roach")]:
+  [normalizeImageKey("Lamont Roach")]:
     "http://boxingdiagrams.com/wp-content/uploads/2025/12/Gemini_Generated_Image_w6pvvhw6pvvhw6pv.png",
 
-  [normalizeNameKey("オシャキー・フォスター")]:
+  [normalizeImageKey("オシャキー・フォスター")]:
     "http://boxingdiagrams.com/wp-content/uploads/2025/12/Gemini_Generated_Image_atkvlsatkvlsatkv.png",
-  [normalizeNameKey("O'Shaquie Foster")]:
+  [normalizeImageKey("O'Shaquie Foster")]:
     "http://boxingdiagrams.com/wp-content/uploads/2025/12/Gemini_Generated_Image_w6pvvhw6pvvhw6pv.png",
 
-  [normalizeNameKey("フルトン")]:
+  [normalizeImageKey("フルトン")]:
     "http://boxingdiagrams.com/wp-content/uploads/2025/12/Gemini_Generated_Image_vrffi3vrffi3vrff.png",
-  [normalizeNameKey("Stephen Fulton")]:
+  [normalizeImageKey("Stephen Fulton")]:
     "http://boxingdiagrams.com/wp-content/uploads/2025/12/Gemini_Generated_Image_vrffi3vrffi3vrff.png",
 
-  [normalizeNameKey("ドネア")]:
+  [normalizeImageKey("ドネア")]:
     "http://boxingdiagrams.com/wp-content/uploads/2025/12/Gemini_Generated_Image_7gtrya7gtrya7gtr.png",
-  [normalizeNameKey("Nonito Donaire")]:
+  [normalizeImageKey("Nonito Donaire")]:
     "http://boxingdiagrams.com/wp-content/uploads/2025/12/Gemini_Generated_Image_7gtrya7gtrya7gtr.png",
 
-  [normalizeNameKey("堤聖也")]:
+  [normalizeImageKey("堤聖也")]:
     "http://boxingdiagrams.com/wp-content/uploads/2025/12/Gemini_Generated_Image_rdtx85rdtx85rdtx.png",
-  [normalizeNameKey("seiya tsutsumi")]:
+  [normalizeImageKey("seiya tsutsumi")]:
     "http://boxingdiagrams.com/wp-content/uploads/2025/12/Gemini_Generated_Image_rdtx85rdtx85rdtx.png",
 
-  [normalizeNameKey("高見亨介")]:
+  [normalizeImageKey("高見亨介")]:
     "http://boxingdiagrams.com/wp-content/uploads/2025/12/Gemini_Generated_Image_tbw27otbw27otbw2.png",
-  [normalizeNameKey("kyosuke takami")]:
+  [normalizeImageKey("kyosuke takami")]:
     "http://boxingdiagrams.com/wp-content/uploads/2025/12/Gemini_Generated_Image_tbw27otbw27otbw2.png",
 
-  [normalizeNameKey("レネ・サンティアゴ")]:
+  [normalizeImageKey("レネ・サンティアゴ")]:
     "http://boxingdiagrams.com/wp-content/uploads/2025/12/Gemini_Generated_Image_rdyuhqrdyuhqrdyu.png",
-  [normalizeNameKey("Rene Santiago")]:
+  [normalizeImageKey("Rene Santiago")]:
     "http://boxingdiagrams.com/wp-content/uploads/2025/12/Gemini_Generated_Image_rdyuhqrdyuhqrdyu.png",
 
-  [normalizeNameKey("中谷潤人")]:
+  [normalizeImageKey("中谷潤人")]:
     "http://boxingdiagrams.com/wp-content/uploads/2025/12/Gemini_Generated_Image_5ti435ti435ti435.png",
-  [normalizeNameKey("junto nakatani")]:
+  [normalizeImageKey("junto nakatani")]:
     "http://boxingdiagrams.com/wp-content/uploads/2025/12/Gemini_Generated_Image_5ti435ti435ti435.png",
 
-    [normalizeNameKey("テレンス・クロフォード")]:
+    [normalizeImageKey("テレンス・クロフォード")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_ow0jclow0jclow0j.png",
   [normalizeNameKey("Terence Crawford")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_ow0jclow0jclow0j.png",
 
-  [normalizeNameKey("オレクサンドル・ウシク")]:
+  [normalizeImageKey("オレクサンドル・ウシク")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_y37vhfy37vhfy37v.png",
-  [normalizeNameKey("Oleksandr Usyk")]:
+  [normalizeImageKey("Oleksandr Usyk")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_y37vhfy37vhfy37v.png",
 
-  [normalizeNameKey("ジャーボンティ・デービス")]:
+  [normalizeImageKey("ジャーボンティ・デービス")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_i73fvji73fvji73f.png",
-  [normalizeNameKey("Gervonta Davis")]:
+  [normalizeImageKey("Gervonta Davis")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_i73fvji73fvji73f.png",
 
-[normalizeNameKey("セバスチャン・エルナンデス")]:
+[normalizeImageKey("セバスチャン・エルナンデス")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_p4uu9op4uu9op4uu.png",
-  [normalizeNameKey("Sebastian Hernandez")]:
+  [normalizeImageKey("Sebastian Hernandez")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_p4uu9op4uu9op4uu.png",
 
-[normalizeNameKey("アラン・ピカソ")]:
+[normalizeImageKey("アラン・ピカソ")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_a5a372a5a372a5a3.png",
-  [normalizeNameKey("David Picasso")]:
+  [normalizeImageKey("David Picasso")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_a5a372a5a372a5a3.png",
 
 
-[normalizeNameKey("アンディ・クルス")]:
+[normalizeImageKey("アンディ・クルス")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_vkxnxyvkxnxyvkxn.png",
-  [normalizeNameKey("Andy Cruz")]:
+  [normalizeImageKey("Andy Cruz")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_vkxnxyvkxnxyvkxn.png",
 
-[normalizeNameKey("レイモンド・ムラタラ")]:
+[normalizeImageKey("レイモンド・ムラタラ")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/muratara.png",
-  [normalizeNameKey("Raymond Muratalla")]:
+  [normalizeImageKey("Raymond Muratalla")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/muratara.png",
 
-[normalizeNameKey("アバス・バラオウ")]:
+[normalizeImageKey("アバス・バラオウ")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/baraou.png",
-  [normalizeNameKey("Abass Baraou")]:
+  [normalizeImageKey("Abass Baraou")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/baraou.png",
 
-[normalizeNameKey("ザンダー・ザヤス")]:
+[normalizeImageKey("ザンダー・ザヤス")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/zayas.png",
-  [normalizeNameKey("Xander Zayas")]:
+  [normalizeImageKey("Xander Zayas")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/zayas.png",
 
-[normalizeNameKey("カルロス・カストロ")]:
+[normalizeImageKey("カルロス・カストロ")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/castro.png",
-  [normalizeNameKey("Carlos Castro")]:
+  [normalizeImageKey("Carlos Castro")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/castro.png",
 
-[normalizeNameKey("ブルース・キャリントン")]:
+[normalizeImageKey("ブルース・キャリントン")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/carington.png",
-  [normalizeNameKey("Bruce Carrington")]:
+  [normalizeImageKey("Bruce Carrington")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/carington.png",
 
-[normalizeNameKey("テオフィモ・ロペス")]:
+[normalizeImageKey("テオフィモ・ロペス")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_kr7a1qkr7a1qkr7a.png",
-  [normalizeNameKey("Teofimo Lopez")]:
+  [normalizeImageKey("Teofimo Lopez")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_kr7a1qkr7a1qkr7a.png",
 
-[normalizeNameKey("シャクール・スティーブンソン")]:
+[normalizeImageKey("シャクール・スティーブンソン")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_jlvqcojlvqcojlvq.png",
-  [normalizeNameKey("Shakur Stevenson")]:
+  [normalizeImageKey("Shakur Stevenson")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_jlvqcojlvqcojlvq.png",
 
-[normalizeNameKey("ニック・ボール")]:
+[normalizeImageKey("ニック・ボール")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/ball.png",
-  [normalizeNameKey("Nick Ball")]:
+  [normalizeImageKey("Nick Ball")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/ball.png",
 
-[normalizeNameKey("キーション・デービス")]:
+[normalizeImageKey("キーション・デービス")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/kdavis.png",
-  [normalizeNameKey("Keyshawn Davis")]:
+  [normalizeImageKey("Keyshawn Davis")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/kdavis.png",
 
-[normalizeNameKey("ジャメイン・オルティス")]:
+[normalizeImageKey("ジャメイン・オルティス")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/jortiz.png",
-  [normalizeNameKey("Jamaine Ortiz")]:
+  [normalizeImageKey("Jamaine Ortiz")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/jortiz.png",
 
-[normalizeNameKey("ブランドン・フィゲロア")]:
+[normalizeImageKey("ブランドン・フィゲロア")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/figueroare.png",
-  [normalizeNameKey("Brandon Figueroa")]:
+  [normalizeImageKey("Brandon Figueroa")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/figueroare.png",
 
-[normalizeNameKey("西田凌佑")]:
+[normalizeImageKey("西田凌佑")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_64o6ba64o6ba64o6.png",
-  [normalizeNameKey("Ryosuke Nishida")]:
+  [normalizeImageKey("Ryosuke Nishida")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_64o6ba64o6ba64o6.png",
 
 
