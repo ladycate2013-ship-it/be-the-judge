@@ -311,7 +311,7 @@ const TAB_H = 64;
 
 const styles = {
   page: {
-    height: "100vh",
+    minHeight: "100svh",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -327,8 +327,8 @@ const styles = {
     color: "#111",
     background: "#fff",
     position: "relative",
-    paddingBottom: 12,        // fixedじゃなくなるので72いらない
-  },
+    paddingBottom: TAB_H + 12,
+ },
 
   headerBar: {
     background: "#b22222",
@@ -431,6 +431,11 @@ const styles = {
     alignItems: "center",
     flexShrink: 0,            // ← つぶれない
     zIndex: 1000,
+position: "fixed",
+  left: 0,
+  right: 0,
+  bottom: "env(safe-area-inset-bottom)",
+  height: TAB_H,
   },
 tabItem: {
   flex: 1,
