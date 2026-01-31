@@ -154,7 +154,7 @@ export const FIGHTER_IMAGES = {
 
 // 読み取りヘルパー
 export function getFighterImageUrl(name) {
-  return FIGHTER_IMAGES[normalizeName(name)] || null;
+  return FIGHTER_IMAGES[normalizeNameKey(name)] || null;
 }
 
 // SupabaseのEdge Function設定
