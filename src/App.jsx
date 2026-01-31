@@ -1371,6 +1371,9 @@ useEffect(() => {
 
 
 
+useEffect(() => {
+  fetchEvents(); // 起動時にDBから取得して表示
+}, [fetchEvents]);
 
 
 useEffect(() => {
