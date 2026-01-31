@@ -329,7 +329,7 @@ paddingTop: "env(safe-area-inset-top)",
     color: "#111",
     background: "#fff",
     position: "relative",
-paddingTop: "calc(12px + env(safe-area-inset-top))"
+paddingTop: "calc(12px + env(safe-area-inset-top))",
     paddingBottom: TAB_H + 12,
  },
  topBar: {
