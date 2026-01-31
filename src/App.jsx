@@ -333,17 +333,24 @@ paddingTop: "calc(12px + env(safe-area-inset-top))"
     paddingBottom: TAB_H + 12,
  },
  topBar: {
-    position: "sticky",
-    top: 0,
-    zIndex: 50,
-    height: `calc(${HEADER_H}px + env(safe-area-inset-top))`,
-    paddingTop: "env(safe-area-inset-top)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    background: "#1f1f1f",
-    borderBottom: "1px solid #333",
-  },
+  position: "sticky",
+  top: 0,
+  zIndex: 50,
+
+  // 中身（バー）の高さは固定
+  height: `${HEADER_H}px`,
+
+  // ノッチ分を“上に”足す（これが本命）
+  paddingTop: "env(safe-area-inset-top)",
+
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+
+  background: "#1f1f1f",
+  borderBottom: "1px solid #333",
+},
+
   headerBar: {
     background: "#b22222",
     color: "#fff",
