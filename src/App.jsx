@@ -2059,26 +2059,7 @@ function setRoundScore(i, aVal, bVal) {
     const demoTotalAvg = { a: 0, b: 0 }; //
 
 
-    // ✅ PFP集計（localStorage: "pfp_votes"）
-    const pfpTop = React.useMemo(() => {
-      const votes = JSON.parse(localStorage.getItem("pfp_votes") || "[]");
-      const total = votes.length;
-      if (!total) return null;
-      const tally = new Map();
-      for (const v of votes) tally.set(v.pick, (tally.get(v.pick) || 0) + 1);
-      let topName = "",
-        topCount = 0;
-      tally.forEach((cnt, name) => {
-        if (cnt > topCount) {
-          topCount = cnt;
-          topName = name;
-        }
-      });
-      const percent = Math.round((topCount / total) * 1000) / 10;
-      return { name: topName, percent, total };
-    }, []);
-
-    return (
+       return (
       <>
         <div style={styles.headerBar}>🥊BE THE JUDGE🫵💥</div>
 
@@ -2865,26 +2846,92 @@ function getDeviceId() {
   const PfpVote = () => {
     // 既存 state/関数はそのまま利用（pfpPick, canVote(), cooldownInfo() など）
 
+const hasVoted = !!localStorage.getItem("pfp_last_vote_at");
+
+
     // 票を読み出し＆集計
-    const votes = JSON.parse(localStorage.getItem("pfp_votes") || "[]");
-    const hasVoted = votes.length > 0;
-    const results = React.useMemo(() => {
-      const total = votes.length;
-      if (!total) return { total: 0, list: [] };
-      const tally = new Map();
-      for (const v of votes) {
-        tally.set(v.pick, (tally.get(v.pick) || 0) + 1);
-      }
-      const list = Array.from(tally.entries())
-        .map(([name, count]) => ({
-          name,
-          count,
-          percent: Math.round((count / total) * 1000) / 10, // 小数1桁
-        }))
-        .sort((a, b) => b.count - a.count)
-        .slice(0, 10);
-      return { total, list };
-    }, [votes]);
+   
+const pollId = "pfp_2026_02";
+const [pfpTop, setPfpTop] = React.useState(null);
+const [pfpTotals, setPfpTotals] = React.useState({ total: 0, list: [] });
+const [pfpLoading, setPfpLoading] = React.useState(false);
+const loadPfpTop = React.useCallback(async () => {
+  const { data, error } = await supabase
+    .from("pfp_votes")
+    .select("pick")
+    .eq("poll_id", pollId);
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  const total = data?.length ?? 0;
+  if (!total) {
+    setPfpTop(null);
+    return;
+  }
+
+  const tally = new Map();
+  for (const row of data ?? []) {
+    tally.set(row.pick, (tally.get(row.pick) || 0) + 1);
+  }
+
+  let topName = "";
+  let topCount = 0;
+  tally.forEach((cnt, name) => {
+    if (cnt > topCount) {
+      topCount = cnt;
+      topName = name;
+    }
+  });
+
+  const percent = Math.round((topCount / total) * 1000) / 10;
+  setPfpTop({ name: topName, percent, total });
+}, [pollId]);
+
+const loadPfpTotals = React.useCallback(async () => {
+  setPfpLoading(true);
+
+  const { data, error } = await supabase
+    .from("pfp_votes")
+    .select("pick")
+    .eq("poll_id", pollId);
+
+  if (error) {
+    console.error(error);
+    setPfpLoading(false);
+    return;
+  }
+
+  const total = data?.length ?? 0;
+  const tally = new Map();
+  for (const row of data ?? []) {
+    tally.set(row.pick, (tally.get(row.pick) || 0) + 1);
+  }
+
+  const list = Array.from(tally.entries())
+    .map(([name, count]) => ({
+      name,
+      count,
+      percent: total ? Math.round((count / total) * 1000) / 10 : 0,
+    }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 10);
+
+  setPfpTotals({ total, list });
+  setPfpLoading(false);
+}, [pollId]);
+
+React.useEffect(() => {
+  loadPfpTop();
+}, [loadPfpTop]);
+
+React.useEffect(() => {
+  loadPfpTotals();
+}, [loadPfpTotals]);
+
+
 
     // プログレスバー用の小コンポーネント
     const Bar = ({ percent }) => (
