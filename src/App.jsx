@@ -2694,13 +2694,28 @@ const Survey = ({ config }) => {
   const [pick, setPick] = React.useState("");
   const [refresh, setRefresh] = React.useState(0);
 
-  const votes = React.useMemo(() => {
-    try {
-      return JSON.parse(localStorage.getItem(storageKey) || "[]");
-    } catch {
-      return [];
-    }
-  }, [storageKey, refresh]);
+const [votes, setVotes] = React.useState([]);
+
+const loadSurveyVotes = React.useCallback(async () => {
+  const { data, error } = await supabase
+    .from("survey_votes")
+    .select("pick")
+    .eq("survey_id", id);
+
+  if (error) {
+    console.error(error);
+    setVotes([]);
+    return;
+  }
+
+  // ["中谷潤人", "村田昴", ...] の形にする
+  setVotes((data ?? []).map((r) => r.pick));
+}, [id]);
+
+React.useEffect(() => {
+  loadSurveyVotes();
+}, [loadSurveyVotes, refresh]);
+
 
   const hasVoted = localStorage.getItem(votedKey) === "1";
 
@@ -2738,17 +2753,30 @@ const Survey = ({ config }) => {
     </div>
   );
 
-  const submitVote = () => {
-    if (!pick) return;
-    if (!isActive) return;
-    if (hasVoted) return;
+ 
+const submitVote = async () => {
+  if (!pick) return;
+  if (!isActive) return;
+  if (hasVoted) return;
 
-    const list = [...votes, pick];
-    localStorage.setItem(storageKey, JSON.stringify(list));
-    localStorage.setItem(votedKey, "1");
-    setRefresh((x) => x + 1);
-    alert("投票ありがとう！");
-  };
+  const { error } = await supabase.from("survey_votes").insert({
+    survey_id: id,
+    pick,
+    device_id: getDeviceId(),
+  });
+
+  if (error) {
+    console.error(error);
+    alert("投票に失敗しました。もう一度お試しください。");
+    return;
+  }
+
+  localStorage.setItem(votedKey, "1"); // 端末ロック
+  setRefresh((x) => x + 1);
+  alert("投票ありがとう！");
+};
+
+
 
   // 期限切れなら表示したくない場合：ここで return null にしてOK
   // if (!isActive) return null;
