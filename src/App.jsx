@@ -1311,9 +1311,9 @@ export default function App() {
     setEvents(selected.map(makeFightFromEvent));
   }, []);
 
-//useEffect(() => {
-//  fetchEvents(); // 起動時に自動取得
-//}, [fetchEvents]);
+useEffect(() => {
+fetchEvents(); // 起動時に自動取得
+}, [fetchEvents]);
 
   // --- ICS同期を手動でも呼べるように関数化 ---
 const handleSync = useCallback(async () => {
@@ -2770,7 +2770,7 @@ const submitVote = async () => {
     alert("投票に失敗しました。もう一度お試しください。");
     return;
   }
-
+setVotes((prev) => [...prev, pick]);
   localStorage.setItem(votedKey, "1"); // 端末ロック
   setRefresh((x) => x + 1);
   alert("投票ありがとう！");
