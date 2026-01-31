@@ -308,7 +308,7 @@ const MOCK_SCHEDULE = [
 const schedule = import.meta.env.DEV ? MOCK_SCHEDULE : [];
 // スタイル
 const TAB_H = 64;
-const HEADER_H = 52; 
+const HEADER_H = 76; 
 
 const styles = {
   page: {
@@ -342,14 +342,19 @@ const styles = {
 },
 
 topBar: {
-  position: "sticky",
+  position: "fixed",
   top: 0,
+  left: 0,
+  right: 0,
   zIndex: 50,
-  paddingTop: "env(safe-area-inset-top)",
+
   height: `calc(${HEADER_H}px + env(safe-area-inset-top))`,
+  paddingTop: "env(safe-area-inset-top)",
+
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
+
   background: "#1f1f1f",
   borderBottom: "1px solid #333",
 },
@@ -376,7 +381,6 @@ topTitlePill: {
     fontSize: 16,
     letterSpacing: 0.6,
     textAlign: "center",
-    marginBottom: 8,
   },
   card: { border: "1px solid #e5e7eb", borderRadius: 12, background: "#fff" },
   cardContent: { padding: 6 },
