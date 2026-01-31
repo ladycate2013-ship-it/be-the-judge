@@ -1319,7 +1319,7 @@ useEffect(() => {
   (async () => {
     // 6時間以上空いてたら同期してから表示更新
     if (!last || Date.now() - last > SIX_HOURS) {
-      await handleSync();
+      await fetchEvents();
       localStorage.setItem(key, String(Date.now()));
 
       // handleSyncの中でfetchEventsしてない場合だけ有効化
