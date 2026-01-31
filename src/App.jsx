@@ -1311,9 +1311,9 @@ export default function App() {
     setEvents(selected.map(makeFightFromEvent));
   }, []);
 
-useEffect(() => {
-  fetchEvents(); // 起動時に自動取得
-}, [fetchEvents]);
+//useEffect(() => {
+//  fetchEvents(); // 起動時に自動取得
+//}, [fetchEvents]);
 
   // --- ICS同期を手動でも呼べるように関数化 ---
 const handleSync = useCallback(async () => {
