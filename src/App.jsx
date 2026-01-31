@@ -2042,6 +2042,47 @@ function setRoundScore(i, aVal, bVal) {
   // ===== ホーム：スケジュール一覧（カード全体クリック、両側に丸顔、平均は合計平均） =====
   const HomeList = ({ onlyPast = false, pastEvents = [] } = {}) => {
     const [visibleCount, setVisibleCount] = useState(20);
+const pollId = "pfp_2026_02";
+  const [pfpTop, setPfpTop] = React.useState(null);
+
+  const loadPfpTop = React.useCallback(async () => {
+    const { data, error } = await supabase
+      .from("pfp_votes")
+      .select("pick")
+      .eq("poll_id", pollId);
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    const total = data?.length ?? 0;
+    if (!total) {
+      setPfpTop(null);
+      return;
+    }
+
+    const tally = new Map();
+    for (const row of data ?? []) {
+      tally.set(row.pick, (tally.get(row.pick) || 0) + 1);
+    }
+
+    let topName = "";
+    let topCount = 0;
+    tally.forEach((cnt, name) => {
+      if (cnt > topCount) {
+        topCount = cnt;
+        topName = name;
+      }
+    });
+
+    const percent = Math.round((topCount / total) * 1000) / 10;
+    setPfpTop({ name: topName, percent, total });
+  }, [pollId]);
+
+  React.useEffect(() => {
+    loadPfpTop();
+  }, [loadPfpTop]);
     const toFightForLoad = (f) => ({
       ...f,
       // Homeと履歴でキーが違っても拾えるように
@@ -2852,43 +2893,9 @@ const hasVoted = !!localStorage.getItem("pfp_last_vote_at");
     // 票を読み出し＆集計
    
 const pollId = "pfp_2026_02";
-const [pfpTop, setPfpTop] = React.useState(null);
 const [pfpTotals, setPfpTotals] = React.useState({ total: 0, list: [] });
 const [pfpLoading, setPfpLoading] = React.useState(false);
-const loadPfpTop = React.useCallback(async () => {
-  const { data, error } = await supabase
-    .from("pfp_votes")
-    .select("pick")
-    .eq("poll_id", pollId);
 
-  if (error) {
-    console.error(error);
-    return;
-  }
-
-  const total = data?.length ?? 0;
-  if (!total) {
-    setPfpTop(null);
-    return;
-  }
-
-  const tally = new Map();
-  for (const row of data ?? []) {
-    tally.set(row.pick, (tally.get(row.pick) || 0) + 1);
-  }
-
-  let topName = "";
-  let topCount = 0;
-  tally.forEach((cnt, name) => {
-    if (cnt > topCount) {
-      topCount = cnt;
-      topName = name;
-    }
-  });
-
-  const percent = Math.round((topCount / total) * 1000) / 10;
-  setPfpTop({ name: topName, percent, total });
-}, [pollId]);
 
 const loadPfpTotals = React.useCallback(async () => {
   setPfpLoading(true);
@@ -2923,9 +2930,7 @@ const loadPfpTotals = React.useCallback(async () => {
   setPfpLoading(false);
 }, [pollId]);
 
-React.useEffect(() => {
-  loadPfpTop();
-}, [loadPfpTop]);
+
 
 React.useEffect(() => {
   loadPfpTotals();
