@@ -317,39 +317,55 @@ const styles = {
     flexDirection: "column",
     alignItems: "center",
     background: "#1f1f1f",
-paddingTop: "env(safe-area-inset-top)", 
   },
 
   container: {
-    width: "100%",
-    maxWidth: 420,
-    flex: 1,                 // ← これ超重要（残り高さを全部使う）
-    overflowY: "auto",        // ← ここがスクロール担当
-    WebkitOverflowScrolling: "touch",
-    color: "#111",
-    background: "#fff",
-    position: "relative",
-paddingTop: "calc(12px + env(safe-area-inset-top))",
-    paddingBottom: TAB_H + 12,
- },
- topBar: {
+  width: "min(980px, 100%)",
+  maxWidth: 420,
+
+  paddingLeft: 12,
+  paddingRight: 12,
+
+  // ★固定ヘッダー(topBar)の分だけ中身を下げる（safe-area込み）
+  paddingTop: `calc(${HEADER_H}px + env(safe-area-inset-top) + 12px)`,
+
+  // ★下タブの分だけ余白（safe-area-bottom込みにするなら後述）
+  paddingBottom: TAB_H + 12,
+
+  flex: 1, // ←残り高さを全部使う
+  overflowY: "auto", // ←スクロール担当
+  WebkitOverflowScrolling: "touch",
+
+  color: "#111",
+  background: "#fff",
+  position: "relative",
+},
+
+topBar: {
   position: "sticky",
   top: 0,
   zIndex: 50,
-
-  // 中身（バー）の高さは固定
-  height: `${HEADER_H}px`,
-
-  // ノッチ分を“上に”足す（これが本命）
   paddingTop: "env(safe-area-inset-top)",
-
+  height: `calc(${HEADER_H}px + env(safe-area-inset-top))`,
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-
   background: "#1f1f1f",
   borderBottom: "1px solid #333",
 },
+
+topTitlePill: {
+  background: "#b22222",
+  color: "#fff",
+  borderRadius: 16,
+  padding: "10px 16px",
+  fontWeight: 900,
+  fontSize: 18,
+  letterSpacing: 0.6,
+  lineHeight: 1,
+  whiteSpace: "nowrap",
+},
+
 
   headerBar: {
     background: "#b22222",
@@ -3085,40 +3101,23 @@ const Survey = ({ config }) => {
   };
 
   // レンダリング
- return (
+return (
   <div style={styles.page}>
-    {/* ✅ 追加：固定ヘッダー（トップバー） */}
     <div style={styles.topBar}>
-      <div style={styles.headerBar}>Be the Judge</div>
+      <div style={styles.topTitlePill}>Be the Judge</div>
     </div>
 
-    {/* ✅ 既存：中身（下タブ分の余白を確保したいならcontainer側にpaddingBottom入れる） */}
     <div style={styles.container}>
-      {activeTab === "ホーム" &&
-        (homeView === "list" ? <HomeList /> : <ScoreCard />)}
+      {activeTab === "ホーム" && (homeView === "list" ? <HomeList /> : <ScoreCard />)}
       {activeTab === "履歴" && <History />}
       {activeTab === "MY PAGE" && <MyPage />}
       {activeTab === "PFP投票" && <PfpVote />}
     </div>
 
-    {/* ✅ 既存：下の固定タブ */}
     <div style={styles.tabBar}>
-      {["ホーム", "履歴", "MY PAGE", "PFP投票"].map((tab) => (
-        <div
-          key={tab}
-          onClick={() => {
-            setActiveTab(tab);
-            if (tab === "ホーム") setHomeView("list");
-          }}
-          style={{
-            ...styles.tabItem,
-            ...(activeTab === tab ? styles.tabActive : null),
-          }}
-        >
-          {tab}
-        </div>
-      ))}
+      {/* tab */}
     </div>
   </div>
 );
+
 } 
