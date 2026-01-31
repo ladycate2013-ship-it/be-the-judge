@@ -59,7 +59,7 @@ export const FIGHTER_IMAGES = {
 
     [normalizeImageKey("テレンス・クロフォード")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_ow0jclow0jclow0j.png",
-  [normalizeNameKey("Terence Crawford")]:
+  [normalizeImageKey("Terence Crawford")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_ow0jclow0jclow0j.png",
 
   [normalizeImageKey("オレクサンドル・ウシク")]:
@@ -154,7 +154,7 @@ export const FIGHTER_IMAGES = {
 
 // 読み取りヘルパー
 export function getFighterImageUrl(name) {
-  return FIGHTER_IMAGES[normalizeNameKey(name)] || null;
+  return FIGHTER_IMAGES[normalizeImageKey(name)] || null;
 }
 
 // SupabaseのEdge Function設定
