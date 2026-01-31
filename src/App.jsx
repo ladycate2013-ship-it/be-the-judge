@@ -308,11 +308,10 @@ const MOCK_SCHEDULE = [
 const schedule = import.meta.env.DEV ? MOCK_SCHEDULE : [];
 // スタイル
 const TAB_H = 64;
-const HEADER_H = 76; 
 
 const styles = {
   page: {
-    minHeight: "100svh",
+    height: "100vh",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -320,57 +319,16 @@ const styles = {
   },
 
   container: {
-  width: "min(980px, 100%)",
-  maxWidth: 420,
-
-  paddingLeft: 12,
-  paddingRight: 12,
-
-  // ★固定ヘッダー(topBar)の分だけ中身を下げる（safe-area込み）
-  paddingTop: `calc(${HEADER_H}px + env(safe-area-inset-top) + 12px)`,
-
-  // ★下タブの分だけ余白（safe-area-bottom込みにするなら後述）
-  paddingBottom: TAB_H + 12,
-
-  flex: 1, // ←残り高さを全部使う
-  overflowY: "auto", // ←スクロール担当
-  WebkitOverflowScrolling: "touch",
-
-  color: "#111",
-  background: "#fff",
-  position: "relative",
-},
-
-topBar: {
-  position: "fixed",
-  top: 0,
-  left: 0,
-  right: 0,
-  zIndex: 50,
-
-  height: `calc(${HEADER_H}px + env(safe-area-inset-top))`,
-  paddingTop: "env(safe-area-inset-top)",
-
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-
-  background: "#1f1f1f",
-  borderBottom: "1px solid #333",
-},
-
-topTitlePill: {
-  background: "#b22222",
-  color: "#fff",
-  borderRadius: 16,
-  padding: "10px 16px",
-  fontWeight: 900,
-  fontSize: 18,
-  letterSpacing: 0.6,
-  lineHeight: 1,
-  whiteSpace: "nowrap",
-},
-
+    width: "100%",
+    maxWidth: 420,
+    flex: 1,                 // ← これ超重要（残り高さを全部使う）
+    overflowY: "auto",        // ← ここがスクロール担当
+    WebkitOverflowScrolling: "touch",
+    color: "#111",
+    background: "#fff",
+    position: "relative",
+    paddingBottom: 12,        // fixedじゃなくなるので72いらない
+  },
 
   headerBar: {
     background: "#b22222",
@@ -381,6 +339,7 @@ topTitlePill: {
     fontSize: 16,
     letterSpacing: 0.6,
     textAlign: "center",
+    marginBottom: 8,
   },
   card: { border: "1px solid #e5e7eb", borderRadius: 12, background: "#fff" },
   cardContent: { padding: 6 },
@@ -472,10 +431,6 @@ topTitlePill: {
     alignItems: "center",
     flexShrink: 0,            // ← つぶれない
     zIndex: 1000,
-  left: 0,
-  right: 0,
-  bottom: "env(safe-area-inset-bottom)",
-  height: TAB_H,
   },
 tabItem: {
   flex: 1,
@@ -3105,23 +3060,33 @@ const Survey = ({ config }) => {
   };
 
   // レンダリング
-return (
-  <div style={styles.page}>
-    <div style={styles.topBar}>
-      <div style={styles.topTitlePill}>Be the Judge</div>
-    </div>
+  return (
+    <div style={styles.page}>
+      <div style={styles.container}>
+        {activeTab === "ホーム" &&
+          (homeView === "list" ? <HomeList /> : <ScoreCard />)}
+        {activeTab === "履歴" && <History />}
+        {activeTab === "MY PAGE" && <MyPage />}
+        {activeTab === "PFP投票" && <PfpVote />}
+      </div>
 
-    <div style={styles.container}>
-      {activeTab === "ホーム" && (homeView === "list" ? <HomeList /> : <ScoreCard />)}
-      {activeTab === "履歴" && <History />}
-      {activeTab === "MY PAGE" && <MyPage />}
-      {activeTab === "PFP投票" && <PfpVote />}
+      <div style={styles.tabBar}>
+        {["ホーム", "履歴", "MY PAGE", "PFP投票"].map((tab) => (
+          <div
+            key={tab}
+            onClick={() => {
+              setActiveTab(tab);
+              if (tab === "ホーム") setHomeView("list");
+            }}
+            style={{
+              ...styles.tabItem,
+              ...(activeTab === tab ? styles.tabActive : null),
+            }}
+          >
+            {tab}
+          </div>
+        ))}
+      </div>
     </div>
-
-    <div style={styles.tabBar}>
-      {/* tab */}
-    </div>
-  </div>
-);
-
-} 
+  );
+}
