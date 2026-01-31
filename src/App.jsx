@@ -2652,7 +2652,7 @@ const SURVEY_CONFIG = {
     "その他",
   ],
   // 期限（日本時間でOK。Dateに読める形ならOK）
-  endsAt: "2026-02-8T00:00:00+09:00",
+  endsAt: "2026-02-08T00:00:00+09:00",
   // 結果は投票後だけ見せたいなら true
   showResultsOnlyAfterVote: true,
 };
