@@ -2850,6 +2850,15 @@ const Survey = ({ config }) => {
     </div>
   );
 };
+function getDeviceId() {
+  const key = "btj_device_id";
+  let id = localStorage.getItem(key);
+  if (!id) {
+    id = crypto.randomUUID();
+    localStorage.setItem(key, id);
+  }
+  return id;
+}
 
 
   // PFP投票（単票・16名）＋結果Top10
@@ -2924,19 +2933,53 @@ const Survey = ({ config }) => {
                     : { opacity: 0.5, cursor: "not-allowed" }),
                 }}
                 disabled={!canVote() || !pfpPick}
-                onClick={() => {
-                  const at = Date.now();
-                  const list = JSON.parse(
-                    localStorage.getItem("pfp_votes") || "[]"
-                  );
-                  list.unshift({ at, pick: pfpPick });
-                  localStorage.setItem("pfp_votes", JSON.stringify(list));
-                  setLastVoteAt(at);
-                  localStorage.setItem("pfp_last_vote_at", String(at));
-                  alert(
-                    `「${pfpPick}」に投票しました！ 30日間は再投票できません。`
-                  );
-                }}
+                onClick={async () => {
+  if (!pfpPick) return;
+
+  const pollId = "pfp_2026_02"; // ←とりあえず固定（後で月替わりにできる）
+  const deviceId = getDeviceId();
+  const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+
+  // 30日以内に投票済みかDBで確認
+  const { data: recent, error: selErr } = await supabase
+    .from("pfp_votes")
+    .select("id, created_at")
+    .eq("poll_id", pollId)
+    .eq("device_id", deviceId)
+    .gte("created_at", since)
+    .limit(1);
+
+  if (selErr) {
+    console.error(selErr);
+    alert("投票エラー（DB参照に失敗）");
+    return;
+  }
+  if (recent && recent.length > 0) {
+    alert("この端末では30日以内に投票済みです。");
+    return;
+  }
+
+  // 投票を保存
+  const { error: insErr } = await supabase.from("pfp_votes").insert({
+    poll_id: pollId,
+    device_id: deviceId,
+    pick: pfpPick,
+  });
+
+  if (insErr) {
+    console.error(insErr);
+    alert("投票エラー（DB保存に失敗）");
+    return;
+  }
+
+  // UI表示用に既存ローカルも維持（任意）
+  const at = Date.now();
+  localStorage.setItem("pfp_last_vote_at", String(at));
+  setLastVoteAt(at);
+
+  alert(`「${pfpPick}」に投票しました！`);
+}}
+
               >
                 投票する
               </button>
