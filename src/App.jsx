@@ -123,6 +123,32 @@ export const FIGHTER_IMAGES = {
   [normalizeName("Shakur Stevenson")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_jlvqcojlvqcojlvq.png",
 
+[normalizeName("ニック・ボール")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/01/ball.png",
+  [normalizeName("Nick Ball")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/01/ball.png",
+
+[normalizeName("キーション・デービス")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/01/kdavis.png",
+  [normalizeName("Keyshawn Davis")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/01/kdavis.png",
+
+[normalizeName("ジャメイン・オルティス")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/01/jortiz.png",
+  [normalizeName("Jamaine Ortiz")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/01/jortiz.png",
+
+[normalizeName("ブランドン・フィゲロア")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/01/figueroare.png",
+  [normalizeName("Brandon Figueroa")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/01/figueroare.png",
+
+[normalizeName("西田凌佑")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_64o6ba64o6ba64o6.png",
+  [normalizeName("Ryosuke Nishida")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_64o6ba64o6ba64o6.png",
+
+
 
 };
 
@@ -2608,7 +2634,7 @@ function setRoundScore(i, aVal, bVal) {
 
 // ===== 週替わりアンケ（ここだけ編集すれば差し替え可能） =====
 const SURVEY_CONFIG = {
-  id: "survey_2026w01", // 週ごとに必ず変える（例: survey_2026w02）
+  id: "survey_2026w02", // 週ごとに必ず変える（例: survey_2026w02）
   title: "今週のアンケート",
   question: "本当のネクストモンスターは誰？？",
   options: [
@@ -2626,7 +2652,7 @@ const SURVEY_CONFIG = {
     "その他",
   ],
   // 期限（日本時間でOK。Dateに読める形ならOK）
-  endsAt: "2026-01-19T00:00:00+09:00",
+  endsAt: "2026-02-8T00:00:00+09:00",
   // 結果は投票後だけ見せたいなら true
   showResultsOnlyAfterVote: true,
 };
