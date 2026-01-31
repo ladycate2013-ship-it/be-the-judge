@@ -308,6 +308,7 @@ const MOCK_SCHEDULE = [
 const schedule = import.meta.env.DEV ? MOCK_SCHEDULE : [];
 // スタイル
 const TAB_H = 64;
+const HEADER_H = 52; 
 
 const styles = {
   page: {
@@ -316,6 +317,7 @@ const styles = {
     flexDirection: "column",
     alignItems: "center",
     background: "#1f1f1f",
+paddingTop: "env(safe-area-inset-top)", 
   },
 
   container: {
@@ -327,9 +329,21 @@ const styles = {
     color: "#111",
     background: "#fff",
     position: "relative",
+paddingTop: "calc(12px + env(safe-area-inset-top))"
     paddingBottom: TAB_H + 12,
  },
-
+ topBar: {
+    position: "sticky",
+    top: 0,
+    zIndex: 50,
+    height: `calc(${HEADER_H}px + env(safe-area-inset-top))`,
+    paddingTop: "env(safe-area-inset-top)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    background: "#1f1f1f",
+    borderBottom: "1px solid #333",
+  },
   headerBar: {
     background: "#b22222",
     color: "#fff",
@@ -431,7 +445,6 @@ const styles = {
     alignItems: "center",
     flexShrink: 0,            // ← つぶれない
     zIndex: 1000,
-position: "fixed",
   left: 0,
   right: 0,
   bottom: "env(safe-area-inset-bottom)",
@@ -3065,33 +3078,39 @@ const Survey = ({ config }) => {
   };
 
   // レンダリング
-  return (
-    <div style={styles.page}>
-      <div style={styles.container}>
-        {activeTab === "ホーム" &&
-          (homeView === "list" ? <HomeList /> : <ScoreCard />)}
-        {activeTab === "履歴" && <History />}
-        {activeTab === "MY PAGE" && <MyPage />}
-        {activeTab === "PFP投票" && <PfpVote />}
-      </div>
-
-      <div style={styles.tabBar}>
-        {["ホーム", "履歴", "MY PAGE", "PFP投票"].map((tab) => (
-          <div
-            key={tab}
-            onClick={() => {
-              setActiveTab(tab);
-              if (tab === "ホーム") setHomeView("list");
-            }}
-            style={{
-              ...styles.tabItem,
-              ...(activeTab === tab ? styles.tabActive : null),
-            }}
-          >
-            {tab}
-          </div>
-        ))}
-      </div>
+ return (
+  <div style={styles.page}>
+    {/* ✅ 追加：固定ヘッダー（トップバー） */}
+    <div style={styles.topBar}>
+      <div style={styles.headerBar}>Be the Judge</div>
     </div>
-  );
-}
+
+    {/* ✅ 既存：中身（下タブ分の余白を確保したいならcontainer側にpaddingBottom入れる） */}
+    <div style={styles.container}>
+      {activeTab === "ホーム" &&
+        (homeView === "list" ? <HomeList /> : <ScoreCard />)}
+      {activeTab === "履歴" && <History />}
+      {activeTab === "MY PAGE" && <MyPage />}
+      {activeTab === "PFP投票" && <PfpVote />}
+    </div>
+
+    {/* ✅ 既存：下の固定タブ */}
+    <div style={styles.tabBar}>
+      {["ホーム", "履歴", "MY PAGE", "PFP投票"].map((tab) => (
+        <div
+          key={tab}
+          onClick={() => {
+            setActiveTab(tab);
+            if (tab === "ホーム") setHomeView("list");
+          }}
+          style={{
+            ...styles.tabItem,
+            ...(activeTab === tab ? styles.tabActive : null),
+          }}
+        >
+          {tab}
+        </div>
+      ))}
+    </div>
+  </div>
+);
