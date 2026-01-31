@@ -1376,19 +1376,19 @@ useEffect(() => {
 }, [fetchEvents]);
 
 
-useEffect(() => {
+//useEffect(() => {
   // すでに選択中なら何もしない（ユーザー操作を尊重）
-  if (fightId) return;
+//  if (fightId) return;
 
   // eventsがあればそれを採用、なければ（DEVだけ）MOCK
-   if (events.length > 0) {
-    const f = events[0]; // makeFightFromEvent 済み
-    setFightId(f.id);
-    setFighterA(f.a);
-    setFighterB(f.b);
-    return;
-  }
-}, [events, fightId]);
+ //  if (events.length > 0) {
+ //   const f = events[0]; // makeFightFromEvent 済み
+ //   setFightId(f.id);
+ //   setFighterA(f.a);
+ //   setFighterB(f.b);
+  //  return;
+ // }
+//}, [events, fightId]);
 
   // ダミー平均（接続後はRPCで実値化）
   const EMPTY_AVG = Array.from({ length: DEFAULT_ROUNDS }, () => ({}));
