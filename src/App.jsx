@@ -2828,14 +2828,14 @@ const Survey = ({ config }) => {
         </div>
 
         {/* 結果 */}
-        {results.total > 0 &&
+        {pfpTotals.total > 0 &&
         (!showResultsOnlyAfterVote || hasVoted || !isActive) ? (
           <div style={{ marginTop: 12 }}>
             <div style={{ fontSize: 11, color: "#64748b", marginBottom: 6 }}>
-              票数: {results.total}
+              票数: {pfpTotals.total}
             </div>
             <div style={{ display: "grid", gap: 8 }}>
-              {results.list.map((row) => (
+              {pfpTotals.list.map((row) => (
                 <div
                   key={row.opt}
                   style={{
@@ -2863,7 +2863,7 @@ const Survey = ({ config }) => {
           </div>
         ) : (
           <div style={{ marginTop: 10, fontSize: 12, color: "#64748b" }}>
-            {results.total === 0
+            {pfpTotals.total === 0
               ? "まだ投票がありません。"
               : "投票すると結果が表示されます。"}
           </div>
@@ -3089,18 +3089,18 @@ React.useEffect(() => {
               }}
             >
               <div style={{ fontWeight: 700 }}>PFP 投票結果（Top 10）</div>
-              {results.total > 0 && (
+              {pfpTotals.total > 0 && (
                 <span style={{ fontSize: 11, color: "#64748b" }}>
-                  投票総数 {results.total}
+                  投票総数 {pfpTotals.total}
                 </span>
               )}
             </div>
 
             {/* 表示条件：票がある && （フラグがfalse もしくは 投票済み） */}
-            {results.total > 0 &&
+            {pfpTotals.total > 0 &&
             (!SHOW_PFP_RESULTS_ONLY_AFTER_VOTE || hasVoted) ? (
               <div style={{ marginTop: 8, display: "grid", gap: 8 }}>
-                {results.list.map((row, i) => (
+                {pfpTotals.list.map((row, i) => (
                   <div
                     key={row.name}
                     style={{
@@ -3140,7 +3140,7 @@ React.useEffect(() => {
               </div>
             ) : (
               <div style={{ marginTop: 8, fontSize: 12, color: "#64748b" }}>
-                {results.total === 0
+                {pfpTotals.total === 0
                   ? "まだ投票がありません。まずは1票入れてください。"
                   : "あなたが投票するとランキングが表示されます。"}
               </div>
