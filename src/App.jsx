@@ -250,7 +250,6 @@ const { a, b } = pickFighters(title, description);
 
 const platform = detectWatchPlatform(`${title} ${description}`);
 
-const tagsFromDesc = extractHashtags(description);
 
 
   const start = ev.starts_at ? new Date(ev.starts_at) : null;
