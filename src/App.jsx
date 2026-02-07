@@ -248,10 +248,7 @@ const text = `${ev.title || ""}\n${ev.description || ""}`;
   );
 // const hashtags = extractHashtags(ev.description);
 const tagsFromDesc = extractHashtags(description);
-const hashtagText =
-  tagsFromDesc.length > 0
-    ? tagsFromDesc.join(" ")
-    : "#Boxing";
+const hashtagText = tagsFromDesc.length > 0 ? tagsFromDesc.join(" ") : "#Boxing";
 
 
 
@@ -936,7 +933,6 @@ async function shareScore({
   スコア: ${totals.a} - ${totals.b}
   平均: ${avgForText.a} - ${avgForText.b}
   ${hashtagText}`; 
-  #Boxing`;
 
   const blob = await makeScoreImage({
     fightId,
