@@ -148,7 +148,7 @@ export const FIGHTER_IMAGES = {
   [normalizeImageKey("Ryosuke Nishida")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_64o6ba64o6ba64o6.png",
 
-[normalizeImageKey("ブライアン・メルカド")]:
+[normalizeImageKey("ブライアン・メルカド・バスケス")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/02/Gemini_Generated_Image_ja0vxija0vxija0v.png",
   [normalizeImageKey("Bryan Mercado Vazquez")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/02/Gemini_Generated_Image_ja0vxija0vxija0v.png",
@@ -929,7 +929,7 @@ async function shareScore({
   avg,
   suspect,
   foty,
-  description,
+hashtags = [], 
 }) {
   const avgForText = computeTotalAvgForImage(avg, rounds);
   const text = `【個人採点】${fighterA} vs ${fighterB}
