@@ -241,10 +241,20 @@ const makeFightFromEvent = (ev) => {
     return { a: clean(a), b: clean(b) };
   };
 
+const text = `${ev.title || ""}\n${ev.description || ""}`;
   const { a, b } = pickFighters(ev.title, ev.description);
   const platform = detectWatchPlatform(
     `${ev.title || ""} ${ev.description || ""}`
   );
+// const hashtags = extractHashtags(ev.description);
+const tagsFromDesc = extractHashtags(description);
+const hashtagText =
+  tagsFromDesc.length > 0
+    ? tagsFromDesc.join(" ")
+    : "#Boxing";
+
+
+
   const start = ev.starts_at ? new Date(ev.starts_at) : null;
 
   // 日付（従来仕様）
@@ -277,6 +287,12 @@ const makeFightFromEvent = (ev) => {
     platformLabel: platform ? WATCH_PROVIDERS[platform]?.label : null,
   };
 };
+
+function extractHashtags(text = "") {
+  return Array.from(
+    new Set(text.match(/#[A-Za-z0-9_]+/g) || [])
+  );
+}
 
 // --- ICS同期関数（外側） ---
 async function runIcsSync() {
@@ -913,13 +929,14 @@ async function shareScore({
   avg,
   suspect,
   foty,
+  description,
 }) {
   const avgForText = computeTotalAvgForImage(avg, rounds);
-  const fightTag = buildFightHashtag(fighterA, fighterB);
   const text = `【個人採点】${fighterA} vs ${fighterB}
   スコア: ${totals.a} - ${totals.b}
-  平均: ${totals.a} - ${totals.b}
-  ${fightTag} #Boxing`;
+  平均: ${avgForText.a} - ${avgForText.b}
+  ${hashtagText}`; 
+  #Boxing`;
 
   const blob = await makeScoreImage({
     fightId,
@@ -974,266 +991,7 @@ async function shareScore({
   }
 }
 
-// ==== 日本語→ローマ字 & ハッシュタグ生成 ====
-// 主要選手の表記ゆれ用ディクショナリ（必要に応じて追加OK）
-const NAME_ROMAJI_DICT = {
-  井上尚弥: "Inoue",
-  中谷潤人: "Nakatani",
-  寺地拳四朗: "Teraji",
-  堤聖也: "Tsutsumi",
-  ウシク: "Usyk",
-  デュボア: "Dubois",
-  ネリ: "Nery",
-  デービス: "Davis",
-  マーティン: "Martin",
-  カネロ: "Canelo",
-  シャクール: "Shakur",
-  フルトン: "Fulton",
-  ベテルビエフ: "Beterbiev",
-  ビボル: "Bivol",
-  ベナビデス: "Benavidez",
-  スペンス: "Spence",
-  エニス: "Ennis",
-  "ジェシー・ロドリゲス": "Rodriguez",
-  "テオフィモ・ロペス": "Lopez",
-  エスピノサ: "Espinoza",
-  ロペス: "Lopez",
-  ベン: "Benn",
-  ユーバンク: "Eubank",
-};
 
-function normalizeName(s) {
-  return String(s || "")
-    .trim()
-    .replace(/[（）\(\)\[\]【】]/g, "")
-    .replace(/[・･]/g, " ")
-    .replace(/[’'`]/g, "")
-    .replace(/[ー~−–—]/g, "-")
-    .replace(/\s+/g, " ");
-}
-const NAME_ALIAS_DICT = [
-  { keys: ["ブルース キャリントン", "ブルースキャリントン", "キャリントン", "bruce carrington"], value: "Carrington" },
-  // 必要に応じて増やす（valueは基本“名字だけ”）
-];
-
-function lookupAliasRomaji(name) {
-  const n = normalizeName(name).toLowerCase();
-  for (const item of NAME_ALIAS_DICT) {
-    for (const k of item.keys) {
-      const kk = normalizeName(k).toLowerCase();
-      if (n === kk || n.includes(kk) || kk.includes(n)) return item.value;
-    }
-  }
-  return "";
-}
-function pickLastTokenRomaji(romajiLike) {
-  const s = normalizeName(romajiLike).replace(/-/g, " ");
-  const parts = s.split(/\s+/).filter(Boolean);
-  if (parts.length === 0) return "";
-  return parts[parts.length - 1];
-}
-
-// カナ→ローマ字（簡易ヘボン式・拗音/濁音中心）
-function kanaToRomaji(kana) {
-  if (!kana) return "";
-  const s = String(kana)
-    .replace(/・/g, " ")
-    .replace(/[ー~−–—]/g, "-");
-  const table = {
-    キャ: "kya",
-    キュ: "kyu",
-    キョ: "kyo",
-    シャ: "sha",
-    シュ: "shu",
-    ショ: "sho",
-    チャ: "cha",
-    チュ: "chu",
-    チョ: "cho",
-    ニャ: "nya",
-    ニュ: "nyu",
-    ニョ: "nyo",
-    ヒャ: "hya",
-    ヒュ: "hyu",
-    ヒョ: "hyo",
-    ミャ: "mya",
-    ミュ: "myu",
-    ミョ: "myo",
-    リャ: "rya",
-    リュ: "ryu",
-    リョ: "ryo",
-    ギャ: "gya",
-    ギュ: "gyu",
-    ギョ: "gyo",
-    ジャ: "ja",
-    ジュ: "ju",
-    ジョ: "jo",
-    ビャ: "bya",
-    ビュ: "byu",
-    ビョ: "byo",
-    ピャ: "pya",
-    ピュ: "pyu",
-    ピョ: "pyo",
-    デュ: "dyu",
-    ティ: "ti",
-    ファ: "fa",
-    フィ: "fi",
-    フェ: "fe",
-    フォ: "fo",
-    ウィ: "wi",
-    ウェ: "we",
-    ウォ: "wo",
-    ヴァ: "va",
-    ヴィ: "vi",
-    ヴ: "vu",
-    ヴェ: "ve",
-    ヴォ: "vo",
-  };
-  const basic = {
-    ア: "a",
-    イ: "i",
-    ウ: "u",
-    エ: "e",
-    オ: "o",
-    カ: "ka",
-    キ: "ki",
-    ク: "ku",
-    ケ: "ke",
-    コ: "ko",
-    サ: "sa",
-    シ: "shi",
-    ス: "su",
-    セ: "se",
-    ソ: "so",
-    タ: "ta",
-    チ: "chi",
-    ツ: "tsu",
-    テ: "te",
-    ト: "to",
-    ナ: "na",
-    ニ: "ni",
-    ヌ: "nu",
-    ネ: "ne",
-    ノ: "no",
-    ハ: "ha",
-    ヒ: "hi",
-    フ: "fu",
-    ヘ: "he",
-    ホ: "ho",
-    マ: "ma",
-    ミ: "mi",
-    ム: "mu",
-    メ: "me",
-    モ: "mo",
-    ヤ: "ya",
-    ユ: "yu",
-    ヨ: "yo",
-    ラ: "ra",
-    リ: "ri",
-    ル: "ru",
-    レ: "re",
-    ロ: "ro",
-    ワ: "wa",
-    ヲ: "o",
-    ン: "n",
-    ガ: "ga",
-    ギ: "gi",
-    グ: "gu",
-    ゲ: "ge",
-    ゴ: "go",
-    ザ: "za",
-    ジ: "ji",
-    ズ: "zu",
-    ゼ: "ze",
-    ゾ: "zo",
-    ダ: "da",
-    ヂ: "ji",
-    ヅ: "zu",
-    デ: "de",
-    ド: "do",
-    バ: "ba",
-    ビ: "bi",
-    ブ: "bu",
-    ベ: "be",
-    ボ: "bo",
-    パ: "pa",
-    ピ: "pi",
-    プ: "pu",
-    ペ: "pe",
-    ポ: "po",
-    ッ: "*",
-    ャ: "ya",
-    ュ: "yu",
-    ョ: "yo",
-    ー: "-",
-  };
-  // ひらがな→カタカナ
-  const kata = s.replace(/[ぁ-ん]/g, (ch) =>
-    String.fromCharCode(ch.charCodeAt(0) + 0x60)
-  );
-  // 拗音を先に
-  let out = kata;
-  Object.keys(table).forEach((k) => {
-    out = out.split(k).join(table[k]);
-  });
-  // 1文字ずつ
-  let res = "";
-  for (let i = 0; i < out.length; i++) {
-    const ch = out[i];
-    let rom = basic[ch] || ch;
-    if (rom === "*") {
-      // 促音
-      const next = out[i + 1] ? basic[out[i + 1]] || out[i + 1] : "";
-      const c = /^[bcdfghjklmnpqrstvwxyz]/i.test(next) ? next[0] : "";
-      rom = c.toLowerCase();
-    }
-    res += rom;
-  }
-  // 長音（超ざっくり）
-  res = res.replace(/-$/g, "");
-  res = res
-    .replace(/a-/, "aa")
-    .replace(/i-/, "ii")
-    .replace(/u-/, "uu")
-    .replace(/e-/, "ee")
-    .replace(/o-/, "oo");
-  return res;
-}
-
-function toRomajiPreferDict(name) {
-  if (!name) return "";
-
-  // ① 部分一致エイリアス（最優先）
-  const alias = lookupAliasRomaji(name);
-  if (alias) return alias;
-
-  // ② 既存の完全一致辞書（正規化したキーで見る）
-  const norm = normalizeName(name);
-  if (NAME_ROMAJI_DICT[norm]) return NAME_ROMAJI_DICT[norm];
-
-  // ③ カナ主体ならローマ字化
-  if (/^[\p{Script=Hiragana}\p{Script=Katakana}・ー\s\-]+$/u.test(norm))
-    return kanaToRomaji(norm);
-
-  // ④ 英字っぽいなら “名字だけ” に寄せる
-  if (/^[a-zA-Z\s\-.']+$/.test(norm)) {
-    return pickLastTokenRomaji(norm);
-  }
-
-  // ⑤ 最後の手段：そのまま
-  return norm;
-}
-
-function buildFightHashtag(a, b) {
-  const camel = (s) =>
-    s
-      .split(/\s+/)
-      .filter(Boolean)
-      .map((w) => (w ? w[0].toUpperCase() + w.slice(1).toLowerCase() : ""))
-      .join("");
-  const A = camel(toRomajiPreferDict(a));
-  const B = camel(toRomajiPreferDict(b));
-  return `#${A}${B}`;
-}
 // --- タップ採点ユーティリティ ---
 const TAP_SEQUENCE = ["unset", "10-9", "10-8", "10-7"]; // タップでサイクル
 
@@ -1727,8 +1485,7 @@ function setRoundScore(i, aVal, bVal) {
               style={styles.btnSm}
               onClick={() =>
                 shareScore({
-                  platform: "x", // それぞれ "instagram" / "reddit" / "facebook"
-                  fightId,
+                  platform: "x",                   fightId,
                   fighterA,
                   fighterB,
                   rounds,
@@ -1736,6 +1493,7 @@ function setRoundScore(i, aVal, bVal) {
                   avg,
                   suspect,
                   foty,
+description,
                 })
               }
             >
