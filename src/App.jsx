@@ -241,15 +241,17 @@ const makeFightFromEvent = (ev) => {
     return { a: clean(a), b: clean(b) };
   };
 
-const text = `${ev.title || ""}\n${ev.description || ""}`;
-  const { a, b } = pickFighters(ev.title, ev.description);
-  const platform = detectWatchPlatform(
-    `${ev.title || ""} ${ev.description || ""}`
-  );
-// const hashtags = extractHashtags(ev.description);
+const title = ev?.title ?? "";
+const description = ev?.description ?? "";
+
+const text = `${title}\n${description}`;
+
+const { a, b } = pickFighters(title, description);
+
+const platform = detectWatchPlatform(`${title} ${description}`);
+
 const tagsFromDesc = extractHashtags(description);
 const hashtagText = tagsFromDesc.length > 0 ? tagsFromDesc.join(" ") : "#Boxing";
-
 
 
   const start = ev.starts_at ? new Date(ev.starts_at) : null;
@@ -286,6 +288,7 @@ const hashtagText = tagsFromDesc.length > 0 ? tagsFromDesc.join(" ") : "#Boxing"
 };
 
 function extractHashtags(text = "") {
+const s = String(text || "");
   return Array.from(
     new Set(text.match(/#[A-Za-z0-9_]+/g) || [])
   );
