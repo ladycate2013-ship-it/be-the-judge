@@ -929,7 +929,8 @@ async function shareScore({
   avg,
   suspect,
   foty,
- hashtags, 
+ hashtags = [],
+description = "",  
 }) {
   const avgForText = computeTotalAvgForImage(avg, rounds);
 const hashtagText = hashtags.length ? hashtags.join(" ") : "#Boxing";
