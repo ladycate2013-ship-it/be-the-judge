@@ -251,7 +251,6 @@ const { a, b } = pickFighters(title, description);
 const platform = detectWatchPlatform(`${title} ${description}`);
 
 const tagsFromDesc = extractHashtags(description);
-const hashtagText = tagsFromDesc.length > 0 ? tagsFromDesc.join(" ") : "#Boxing";
 
 
   const start = ev.starts_at ? new Date(ev.starts_at) : null;
@@ -919,6 +918,7 @@ async function makeScoreImage({
 }
 
 /// 共有：スコア画像を生成（キャンバス描画）
+const hashtags = extractHashtags(description);
 async function shareScore({
   platform,
   fightId,
@@ -932,6 +932,7 @@ async function shareScore({
 hashtags = [], 
 }) {
   const avgForText = computeTotalAvgForImage(avg, rounds);
+const hashtagText = hashtags.length ? hashtags.join(" ") : "#Boxing";
   const text = `【個人採点】${fighterA} vs ${fighterB}
   スコア: ${totals.a} - ${totals.b}
   平均: ${avgForText.a} - ${avgForText.b}
@@ -1526,6 +1527,7 @@ description,
                   avg,
                   suspect,
                   foty,
+		  hashtags,
                 })
               }
             >
@@ -1559,6 +1561,7 @@ description,
                   avg,
                   suspect,
                   foty,
+		hashtags,
                 })
               }
             >
@@ -1592,6 +1595,7 @@ description,
                   avg,
                   suspect,
                   foty,
+		hashtags,
                 })
               }
             >
