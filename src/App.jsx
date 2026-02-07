@@ -918,7 +918,8 @@ async function makeScoreImage({
 }
 
 /// 共有：スコア画像を生成（キャンバス描画）
-const hashtags = extractHashtags(description);
+const desc = String(description ?? ""); // ← ここが重要（未定義でも落ちない）
+const hashtags = extractHashtags(desc);
 async function shareScore({
   platform,
   fightId,
@@ -929,7 +930,7 @@ async function shareScore({
   avg,
   suspect,
   foty,
-hashtags = [], 
+ hashtags, 
 }) {
   const avgForText = computeTotalAvgForImage(avg, rounds);
 const hashtagText = hashtags.length ? hashtags.join(" ") : "#Boxing";
