@@ -148,7 +148,7 @@ export const FIGHTER_IMAGES = {
   [normalizeImageKey("Ryosuke Nishida")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_64o6ba64o6ba64o6.png",
 
-[normalizeImageKey("ブライアン・メルカド・バスケス")]:
+[normalizeImageKey("ブライアン・メルカド")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/02/Gemini_Generated_Image_ja0vxija0vxija0v.png",
   [normalizeImageKey("Bryan Mercado Vazquez")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/02/Gemini_Generated_Image_ja0vxija0vxija0v.png",
@@ -2685,25 +2685,23 @@ const pollId = "pfp_2026_02";
 
 // ===== 週替わりアンケ（ここだけ編集すれば差し替え可能） =====
 const SURVEY_CONFIG = {
-  id: "survey_2026w02", // 週ごとに必ず変える（例: survey_2026w02）
+  id: "survey_2026w03", // 週ごとに必ず変える（例: survey_2026w02）
   title: "今週のアンケート",
-  question: "本当のネクストモンスターは誰？？",
+  question: "井上尚弥が中谷潤人に勝ったら次は誰と戦うか予想してください",
   options: [
-    "中谷潤人",
-    "村田昴",
-    "坂井優太",
-    "石井渡士也",
-    "堤駿斗",
-    "堤麗斗",
-    "佐々木尽",
-    "高見亨輔",
-    "増田陸",
-    "那須川天心",
-    "坪井智也",
+    "ニックボール",
+    "ラファエル・エスピノサ",
+    "アンジェロ・レオ",
+    "レラト・ドラミニ",
+    "ブルース・キャリントン",
+    "カルロス・カストロ",
+    "セバスチャン・エルナンデス",
+    "西田凌佑",
+    "ブライアン・メルカド・バスケス",
     "その他",
   ],
   // 期限（日本時間でOK。Dateに読める形ならOK）
-  endsAt: "2026-02-08T00:00:00+09:00",
+  endsAt: "2026-02-16T00:00:00+09:00",
   // 結果は投票後だけ見せたいなら true
   showResultsOnlyAfterVote: true,
 };
