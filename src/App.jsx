@@ -148,6 +148,35 @@ export const FIGHTER_IMAGES = {
   [normalizeImageKey("Ryosuke Nishida")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_64o6ba64o6ba64o6.png",
 
+[normalizeImageKey("ブライアン・メルカド・バスケス")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/02/Gemini_Generated_Image_ja0vxija0vxija0v.png",
+  [normalizeImageKey("Bryan Mercado Vazquez")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/02/Gemini_Generated_Image_ja0vxija0vxija0v.png",
+
+[normalizeImageKey("ゲーリー・アントゥアン・ラッセル")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/02/Gemini_Generated_Image_6dbtim6dbtim6dbt.png",
+  [normalizeImageKey("Gary Antuanne Russell")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/02/Gemini_Generated_Image_6dbtim6dbtim6dbt.png",
+
+[normalizeImageKey("平岡アンディ")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/02/Gemini_Generated_Image_j68zfyj68zfyj68z.png",
+  [normalizeImageKey("Andy hiraoka")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/02/Gemini_Generated_Image_j68zfyj68zfyj68z.png",
+
+[normalizeImageKey("アンジェロ・レオ")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/02/Gemini_Generated_Image_2sk88j2sk88j2sk8.png",
+  [normalizeImageKey("Angelo Leo")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/02/Gemini_Generated_Image_2sk88j2sk88j2sk8.png",
+
+[normalizeImageKey("ライアン・ガルシア")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/02/Gemini_Generated_Image_6hgo156hgo156hgo.png",
+  [normalizeImageKey("Ryan Garcia")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/02/Gemini_Generated_Image_6hgo156hgo156hgo.png",
+
+[normalizeImageKey("レラト・ドラミニ")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/02/Gemini_Generated_Image_shltgoshltgoshlt.png",
+  [normalizeImageKey("Lerato Dlamini")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/02/Gemini_Generated_Image_shltgoshltgoshlt.png",
 
 
 };
