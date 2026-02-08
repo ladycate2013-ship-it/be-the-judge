@@ -148,7 +148,7 @@ export const FIGHTER_IMAGES = {
   [normalizeImageKey("Ryosuke Nishida")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_64o6ba64o6ba64o6.png",
 
-[normalizeImageKey("ブライアン・メルカド")]:
+[normalizeImageKey("ブライアン・メルカド・バスケス")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/02/Gemini_Generated_Image_ja0vxija0vxija0v.png",
   [normalizeImageKey("Bryan Mercado Vazquez")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/02/Gemini_Generated_Image_ja0vxija0vxija0v.png",
@@ -906,6 +906,7 @@ async function makeScoreImage({
 
 /// 共有：スコア画像を生成（キャンバス描画）
 async function shareScore({
+console.log("shareScore hashtag:", hashtag);
   platform,
   fightId,
   fighterA,
@@ -921,7 +922,7 @@ hashtag,
 const fightTag = hashtag || "";
   const text = `【個人採点】${fighterA} vs ${fighterB}
   スコア: ${totals.a} - ${totals.b}
-  ${fightTag} #Boxing`;
+  ${fightTag ? `${fightTag} ` : ""}#Boxing`;
 
   const blob = await makeScoreImage({
     fightId,
@@ -1477,7 +1478,7 @@ function setRoundScore(i, aVal, bVal) {
                   avg,
                   suspect,
                   foty,
-hashtag: currentFight?.hashtag,
+hashtag: currentFight?.hashtag || "",
                 })
               }
             >
@@ -1511,7 +1512,7 @@ hashtag: currentFight?.hashtag,
                   avg,
                   suspect,
                   foty,
-hashtag: currentFight?.hashtag,
+hashtag: currentFight?.hashtag || "",
                 })
               }
             >
@@ -1545,7 +1546,7 @@ hashtag: currentFight?.hashtag,
                   avg,
                   suspect,
                   foty,
-hashtag: currentFight?.hashtag,
+hashtag: currentFight?.hashtag || "",
                 })
               }
             >
@@ -1579,7 +1580,7 @@ hashtag: currentFight?.hashtag,
                   avg,
                   suspect,
                   foty,
-hashtag: currentFight?.hashtag,
+hashtag: currentFight?.hashtag || "",
                 })
               }
             >
@@ -2282,6 +2283,7 @@ const pollId = "pfp_2026_02";
                             totalAvg: totalAvgForShare,
                             suspect: h.suspect,
                             foty: h.foty,
+hashtag: h.hashtag || "",
                           })
                         }
                       >
@@ -2303,6 +2305,7 @@ const pollId = "pfp_2026_02";
                             totalAvg: totalAvgForShare,
                             suspect: h.suspect,
                             foty: h.foty,
+hashtag: h.hashtag || "",
                           })
                         }
                       >
@@ -2324,6 +2327,7 @@ const pollId = "pfp_2026_02";
                             totalAvg: totalAvgForShare,
                             suspect: h.suspect,
                             foty: h.foty,
+hashtag: h.hashtag || "",
                           })
                         }
                       >
@@ -2345,6 +2349,7 @@ const pollId = "pfp_2026_02";
                             totalAvg: totalAvgForShare,
                             suspect: h.suspect,
                             foty: h.foty,
+hashtag: h.hashtag || "",
                           })
                         }
                       >
