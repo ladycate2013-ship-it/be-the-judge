@@ -241,8 +241,8 @@ const makeFightFromEvent = (ev) => {
     return { a: clean(a), b: clean(b) };
   };
 
-  const { a, b } = pickFighters(ev.title, ev.description);
-  const hashtag = buildFightHashtag(a, b); 
+const { a, b } = pickFighters(ev.title, ev.description);
+const hashtag = ev?.hashtag || ev?.fight_tag || "";
   const platform = detectWatchPlatform(
     `${ev.title || ""} ${ev.description || ""}`
   );
@@ -1316,7 +1316,7 @@ function setRoundScore(i, aVal, bVal) {
       avgTotalB: totalAvgNow.b,
       rounds: rounds, // その時点の自分のラウンド採点
       avgPerRound: avg, // その時点の平均（1R平均用）
-      hashtag: currentFight?.hashtag || buildFightHashtag(fighterA, fighterB),
+      hashtag: currentFight?.hashtag || "",
     };
     const next = [item, ...myScores.filter((v) => v.id !== item.id)].slice(
       0,
@@ -1475,7 +1475,7 @@ function setRoundScore(i, aVal, bVal) {
                   avg,
                   suspect,
                   foty,
-hashtag: currentFight?.hashtag,
+hashtag: h.hashtag || "", 
                 })
               }
             >
@@ -1509,7 +1509,7 @@ hashtag: currentFight?.hashtag,
                   avg,
                   suspect,
                   foty,
-hashtag: currentFight?.hashtag,
+hashtag: h.hashtag || "", 
                 })
               }
             >
@@ -1543,7 +1543,7 @@ hashtag: currentFight?.hashtag,
                   avg,
                   suspect,
                   foty,
-hashtag: currentFight?.hashtag,
+hashtag: h.hashtag || "", 
                 })
               }
             >
@@ -1577,7 +1577,7 @@ hashtag: currentFight?.hashtag,
                   avg,
                   suspect,
                   foty,
-hashtag: currentFight?.hashtag,
+hashtag: h.hashtag || "", 
                 })
               }
             >
