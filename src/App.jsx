@@ -241,7 +241,7 @@ const makeFightFromEvent = (ev) => {
     return { a: clean(a), b: clean(b) };
   };
 
-  const { a, b } = pickFighters(ev.title, ev.description);
+  const { a, b } = pickFighters(ev.title);
  const hashtag = ev?.hashtag || ev?.fight_tag || ""; 
   const platform = detectWatchPlatform(
     `${ev.title || ""} ${ev.description || ""}`
@@ -917,6 +917,10 @@ async function shareScore({
   foty,
 hashtag,
 }) {
+console.log("fightId", fightId);
+console.log("events[0]", events?.[0]);
+console.log("currentFight", currentFight);
+
   const avgForText = computeTotalAvgForImage(avg, rounds);
 const fightTag = hashtag || "";
   const text = `【個人採点】${fighterA} vs ${fighterB}
