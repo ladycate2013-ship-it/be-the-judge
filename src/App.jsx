@@ -148,7 +148,7 @@ export const FIGHTER_IMAGES = {
   [normalizeImageKey("Ryosuke Nishida")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/01/Gemini_Generated_Image_64o6ba64o6ba64o6.png",
 
-[normalizeImageKey("ブライアン・メルカド・バスケス")]:
+[normalizeImageKey("ブライアン・メルカド")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/02/Gemini_Generated_Image_ja0vxija0vxija0v.png",
   [normalizeImageKey("Bryan Mercado Vazquez")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/02/Gemini_Generated_Image_ja0vxija0vxija0v.png",
@@ -241,8 +241,8 @@ const makeFightFromEvent = (ev) => {
     return { a: clean(a), b: clean(b) };
   };
 
-  const { a, b } = pickFighters(ev.title);
- const hashtag = ev?.hashtag || ev?.fight_tag || ""; 
+  const { a, b } = pickFighters(ev.title, ev.description);
+  const hashtag = buildFightHashtag(a, b); 
   const platform = detectWatchPlatform(
     `${ev.title || ""} ${ev.description || ""}`
   );
@@ -547,8 +547,7 @@ function computeTotalAvgForImage(avg, rounds) {
   let bAvg = null;
 
   // ① avg（DBの平均）があればそれを優先
-  if (Array.isArray(events) && events.length > 0) {
-
+  if (Array.isArray(avg) && avg.length) {
     let sa = 0;
     let sb = 0;
     let cnt = 0;
@@ -918,10 +917,6 @@ async function shareScore({
   foty,
 hashtag,
 }) {
-console.log("fightId", fightId);
-console.log("events[0]", events?.[0]);
-console.log("currentFight", currentFight);
-
   const avgForText = computeTotalAvgForImage(avg, rounds);
 const fightTag = hashtag || "";
   const text = `【個人採点】${fighterA} vs ${fighterB}
@@ -1113,17 +1108,17 @@ const [fighterB, setFighterB] = useState("");
   const [avatarA] = useState("");
   const [avatarB] = useState("");
 
- const EMPTY_ROUNDS = useMemo(
-  () =>
-    Array.from({ length: DEFAULT_ROUNDS }, (_, i) => ({
-      r: i + 1,
-      a: "",
-      b: "",
-    })),
-  []
-);
-
-const [rounds, setRounds] = useState(EMPTY_ROUNDS);
+  const [rounds, setRounds] = useState(() => {
+    const map = JSON.parse(localStorage.getItem("rounds_map") || "{}");
+    return (
+      map[fightId] ||
+      Array.from({ length: DEFAULT_ROUNDS }, (_, i) => ({
+        r: i + 1,
+        a: "",
+        b: "",
+      }))
+    );
+  });
 
 useEffect(() => {
   if (!fightId) return;
@@ -1180,35 +1175,36 @@ useEffect(() => {
       setLoadingSchedule(true);
       setScheduleError(null);
 
-const nowIso = new Date().toISOString();
+      const nowIso = new Date().toISOString();
 
-// 過去2件
-const pastReq = supabase
-  .from("events")
-  .select("uid,title,starts_at,ends_at,location,description")
-  .lt("starts_at", nowIso)
-  .order("starts_at", { ascending: false })
-  .limit(2);
+      // 過去2件
+      const pastReq = supabase
+        .from("events")
+        .select("id, title, start")
+        .lt("start", nowIso)
+        .order("start", { ascending: false })
+        .limit(2);
 
-// 未来6件
-const futureReq = supabase
-  .from("events")
-  .select("uid,title,starts_at,ends_at,location,description")
-  .gte("starts_at", nowIso)
-  .order("starts_at", { ascending: true })
-  .limit(6);
+      // 未来6件
+      const futureReq = supabase
+        .from("events")
+        .select("id, title, start")
+        .gte("start", nowIso)
+        .order("start", { ascending: true })
+        .limit(6);
 
-const [{ data: past, error: pastErr }, { data: future, error: futureErr }] =
-  await Promise.all([pastReq, futureReq]);
+      const [{ data: past, error: pastErr }, { data: future, error: futureErr }] =
+        await Promise.all([pastReq, futureReq]);
 
-if (pastErr) throw pastErr;
-if (futureErr) throw futureErr;
+      if (pastErr) throw pastErr;
+      if (futureErr) throw futureErr;
 
-const merged = [...((past ?? []).slice().reverse()), ...(future ?? [])];
+      const merged = [
+        ...((past ?? []).slice().reverse()),
+        ...(future ?? []),
+      ];
 
-// ★ 重要：HomeList / currentFight が期待する「fight形式」に変換して入れる
-if (alive) setSchedule(merged.map(makeFightFromEvent));
-
+      if (alive) setSchedule(merged);
     } catch (e) {
       if (!alive) return;
       setScheduleError(e);
@@ -1279,6 +1275,13 @@ function setRoundScore(i, aVal, bVal) {
   });
 }
 
+
+  const EMPTY_ROUNDS = Array.from({ length: DEFAULT_ROUNDS }, (_, i) => ({
+    r: i + 1,
+    a: "",
+    b: "",
+  }));
+
   // 試合読み込み → 採点ビューへ
   const loadFight = (f) => {
     setFightId(f.id);
@@ -1288,8 +1291,9 @@ function setRoundScore(i, aVal, bVal) {
     const map = JSON.parse(localStorage.getItem("rounds_map") || "{}");
     setRounds(map[f.id] || EMPTY_ROUNDS);
 
-        //    将来 DB から avg を持ってくるなら f.avg を優先
-    if (Array.isArray(events) && events.length > 0) {
+    // ★ ここが重要：ダミー 9.8 / 9.2 はもう使わない
+    //    将来 DB から avg を持ってくるなら f.avg を優先
+    if (Array.isArray(f.avg) && f.avg.length) {
       setAvg(f.avg); // みんなの平均（将来用）
     } else {
       setAvg(EMPTY_AVG); // 何もなければ空
@@ -1298,7 +1302,6 @@ function setRoundScore(i, aVal, bVal) {
     setHomeView("score");
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-const currentHashtag = currentFight?.hashtag || "";
 
   const saveMyScore = () => {
     const totalAvgNow = totalFromAvg(avg);
@@ -1316,7 +1319,7 @@ const currentHashtag = currentFight?.hashtag || "";
       avgTotalB: totalAvgNow.b,
       rounds: rounds, // その時点の自分のラウンド採点
       avgPerRound: avg, // その時点の平均（1R平均用）
-      hashtag: currentFight?.hashtag || currentFight?.fightTag || "",
+      hashtag: currentFight?.hashtag || buildFightHashtag(fighterA, fighterB),
     };
     const next = [item, ...myScores.filter((v) => v.id !== item.id)].slice(
       0,
@@ -1365,14 +1368,12 @@ const currentHashtag = currentFight?.hashtag || "";
 
   // いま開いている試合（events優先→なければMOCK）
   const currentFight = useMemo(() => {
-  const fights = Array.isArray(events) ? events : [];
-  return fights.find((x) => String(x.id) === String(fightId)) || {};
-}, [events, fightId]);
-
+    const fights = (events && events.length ? events : schedule) || [];
+    return fights.find((x) => x.id === fightId) || {};
+  }, [events, schedule, fightId]);
 
   // ===== スコアカード（合計の真ん中に合計平均も表示／SNSシェア付き） =====
-  function ScoreCard({ currentFight }) {
-  const currentHashtag = currentFight?.hashtag || "";
+  const ScoreCard = () => {
     return (
       <>
         <div style={styles.title}>SCORECARD</div>
@@ -1477,7 +1478,7 @@ const currentHashtag = currentFight?.hashtag || "";
                   avg,
                   suspect,
                   foty,
-hashtag: currentFight?.hashtag || "",
+hashtag: currentFight?.hashtag,
                 })
               }
             >
@@ -1511,7 +1512,7 @@ hashtag: currentFight?.hashtag || "",
                   avg,
                   suspect,
                   foty,
-hashtag: currentFight?.hashtag || "",
+hashtag: currentFight?.hashtag,
                 })
               }
             >
@@ -1545,7 +1546,7 @@ hashtag: currentFight?.hashtag || "",
                   avg,
                   suspect,
                   foty,
-hashtag: currentFight?.hashtag || "",
+hashtag: currentFight?.hashtag,
                 })
               }
             >
@@ -1579,7 +1580,7 @@ hashtag: currentFight?.hashtag || "",
                   avg,
                   suspect,
                   foty,
-hashtag: currentFight?.hashtag || "",
+hashtag: currentFight?.hashtag,
                 })
               }
             >
@@ -2282,7 +2283,6 @@ const pollId = "pfp_2026_02";
                             totalAvg: totalAvgForShare,
                             suspect: h.suspect,
                             foty: h.foty,
-hashtag: h.hashtag || "",
                           })
                         }
                       >
@@ -2304,7 +2304,6 @@ hashtag: h.hashtag || "",
                             totalAvg: totalAvgForShare,
                             suspect: h.suspect,
                             foty: h.foty,
-hashtag: h.hashtag || "",
                           })
                         }
                       >
@@ -2326,7 +2325,6 @@ hashtag: h.hashtag || "",
                             totalAvg: totalAvgForShare,
                             suspect: h.suspect,
                             foty: h.foty,
-hashtag: h.hashtag || "",
                           })
                         }
                       >
@@ -2348,7 +2346,6 @@ hashtag: h.hashtag || "",
                             totalAvg: totalAvgForShare,
                             suspect: h.suspect,
                             foty: h.foty,
-hashtag: h.hashtag || "",
                           })
                         }
                       >
@@ -2949,10 +2946,7 @@ React.useEffect(() => {
     <div style={styles.page}>
       <div style={styles.container}>
         {activeTab === "ホーム" &&
-          (homeView === "list" ? <HomeList />
-      : <ScoreCard currentFight={currentFight || {}} />
-    )
-  }
+          (homeView === "list" ? <HomeList /> : <ScoreCard />)}
         {activeTab === "履歴" && <History />}
         {activeTab === "MY PAGE" && <MyPage />}
         {activeTab === "PFP投票" && <PfpVote />}
@@ -2978,3 +2972,5 @@ React.useEffect(() => {
     </div>
   );
 }
+
+
