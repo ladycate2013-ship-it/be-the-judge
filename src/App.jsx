@@ -1469,7 +1469,7 @@ function setRoundScore(i, aVal, bVal) {
               style={styles.btnSm}
               onClick={() =>
                 shareScore({
-                  platform: "x"
+                  platform: "x",
                   fightId,
                   fighterA,
                   fighterB,
@@ -1503,7 +1503,7 @@ hashtag: currentFight?.hashtag,
               style={styles.btnSm}
               onClick={() =>
                 shareScore({
-                  platform: "instagram", // それぞれ "instagram" / "reddit" / "facebook"
+                  platform: "instagram", 
                   fightId,
                   fighterA,
                   fighterB,
