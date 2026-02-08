@@ -1127,10 +1127,6 @@ useEffect(() => {
   const map = JSON.parse(localStorage.getItem("rounds_map") || "{}");
   const saved = map[fightId];
 
-  setRounds(saved || EMPTY_ROUNDS);
-}, [fightId]);
-
-
   setRounds(
     saved ||
       Array.from({ length: DEFAULT_ROUNDS }, (_, i) => ({
