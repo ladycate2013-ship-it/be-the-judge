@@ -917,7 +917,6 @@ async function shareScore({
   foty,
 hashtag,
 }) {
-console.log("shareScore hashtag:", hashtag);
   const avgForText = computeTotalAvgForImage(avg, rounds);
 const fightTag = hashtag || "";
   const text = `【個人採点】${fighterA} vs ${fighterB}
