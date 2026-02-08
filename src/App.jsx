@@ -1175,36 +1175,35 @@ useEffect(() => {
       setLoadingSchedule(true);
       setScheduleError(null);
 
-      const nowIso = new Date().toISOString();
+const nowIso = new Date().toISOString();
 
-      // 過去2件
-      const pastReq = supabase
-        .from("events")
-        .select("id, title, start")
-        .lt("start", nowIso)
-        .order("start", { ascending: false })
-        .limit(2);
+// 過去2件
+const pastReq = supabase
+  .from("events")
+  .select("uid,title,starts_at,ends_at,location,description")
+  .lt("starts_at", nowIso)
+  .order("starts_at", { ascending: false })
+  .limit(2);
 
-      // 未来6件
-      const futureReq = supabase
-        .from("events")
-        .select("id, title, start")
-        .gte("start", nowIso)
-        .order("start", { ascending: true })
-        .limit(6);
+// 未来6件
+const futureReq = supabase
+  .from("events")
+  .select("uid,title,starts_at,ends_at,location,description")
+  .gte("starts_at", nowIso)
+  .order("starts_at", { ascending: true })
+  .limit(6);
 
-      const [{ data: past, error: pastErr }, { data: future, error: futureErr }] =
-        await Promise.all([pastReq, futureReq]);
+const [{ data: past, error: pastErr }, { data: future, error: futureErr }] =
+  await Promise.all([pastReq, futureReq]);
 
-      if (pastErr) throw pastErr;
-      if (futureErr) throw futureErr;
+if (pastErr) throw pastErr;
+if (futureErr) throw futureErr;
 
-      const merged = [
-        ...((past ?? []).slice().reverse()),
-        ...(future ?? []),
-      ];
+const merged = [...((past ?? []).slice().reverse()), ...(future ?? [])];
 
-      if (alive) setSchedule(merged);
+// ★ 重要：HomeList / currentFight が期待する「fight形式」に変換して入れる
+if (alive) setSchedule(merged.map(makeFightFromEvent));
+
     } catch (e) {
       if (!alive) return;
       setScheduleError(e);
