@@ -1371,7 +1371,7 @@ const currentHashtag = currentFight?.hashtag || "";
 
 
   // ===== スコアカード（合計の真ん中に合計平均も表示／SNSシェア付き） =====
-  const ScoreCard = () => {
+  function ScoreCard({ currentFight }) {
   const currentHashtag = currentFight?.hashtag || "";
     return (
       <>
