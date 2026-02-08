@@ -547,7 +547,8 @@ function computeTotalAvgForImage(avg, rounds) {
   let bAvg = null;
 
   // ① avg（DBの平均）があればそれを優先
-  if (Array.isArray(avg) && avg.length) {
+  if (Array.isArray(events) && events.length > 0) {
+
     let sa = 0;
     let sb = 0;
     let cnt = 0;
@@ -1112,23 +1113,23 @@ const [fighterB, setFighterB] = useState("");
   const [avatarA] = useState("");
   const [avatarB] = useState("");
 
-  const [rounds, setRounds] = useState(() => {
-    const map = JSON.parse(localStorage.getItem("rounds_map") || "{}");
-    return (
-      map[fightId] ||
-      Array.from({ length: DEFAULT_ROUNDS }, (_, i) => ({
-        r: i + 1,
-        a: "",
-        b: "",
-      }))
-    );
-  });
+ const EMPTY_ROUNDS = Array.from({ length: DEFAULT_ROUNDS }, (_, i) => ({
+  r: i + 1,
+  a: "",
+  b: "",
+}));
+
+const [rounds, setRounds] = useState(EMPTY_ROUNDS);
 
 useEffect(() => {
   if (!fightId) return;
 
   const map = JSON.parse(localStorage.getItem("rounds_map") || "{}");
   const saved = map[fightId];
+
+  setRounds(saved || EMPTY_ROUNDS);
+}, [fightId]);
+
 
   setRounds(
     saved ||
@@ -1294,9 +1295,8 @@ function setRoundScore(i, aVal, bVal) {
     const map = JSON.parse(localStorage.getItem("rounds_map") || "{}");
     setRounds(map[f.id] || EMPTY_ROUNDS);
 
-    // ★ ここが重要：ダミー 9.8 / 9.2 はもう使わない
-    //    将来 DB から avg を持ってくるなら f.avg を優先
-    if (Array.isArray(f.avg) && f.avg.length) {
+        //    将来 DB から avg を持ってくるなら f.avg を優先
+    if (Array.isArray(events) && events.length > 0) {
       setAvg(f.avg); // みんなの平均（将来用）
     } else {
       setAvg(EMPTY_AVG); // 何もなければ空
