@@ -242,7 +242,7 @@ const makeFightFromEvent = (ev) => {
   };
 
   const { a, b } = pickFighters(ev.title, ev.description);
-  const hashtag = buildFightHashtag(a, b); 
+ const hashtag = ev?.hashtag || ev?.fight_tag || ""; 
   const platform = detectWatchPlatform(
     `${ev.title || ""} ${ev.description || ""}`
   );
@@ -1318,7 +1318,7 @@ function setRoundScore(i, aVal, bVal) {
       avgTotalB: totalAvgNow.b,
       rounds: rounds, // その時点の自分のラウンド採点
       avgPerRound: avg, // その時点の平均（1R平均用）
-      hashtag: currentFight?.hashtag || buildFightHashtag(fighterA, fighterB),
+      hashtag: currentFight?.hashtag || currentFight?.fightTag || "",
     };
     const next = [item, ...myScores.filter((v) => v.id !== item.id)].slice(
       0,
