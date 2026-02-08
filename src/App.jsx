@@ -917,12 +917,12 @@ async function shareScore({
   foty,
 hashtag,
 }) {
-console.log("currentHashtag:", currentHashtag);
+console.log("shareScore hashtag:", hashtag);
   const avgForText = computeTotalAvgForImage(avg, rounds);
 const fightTag = hashtag || "";
   const text = `【個人採点】${fighterA} vs ${fighterB}
   スコア: ${totals.a} - ${totals.b}
-  ${fightTag ? `${fightTag} ` : ""}#Boxing`;
+  ${fightTag} #Boxing`;
 
   const blob = await makeScoreImage({
     fightId,
@@ -1480,7 +1480,7 @@ const currentHashtag = currentFight?.hashtag || "";
                   avg,
                   suspect,
                   foty,
-hashtag: currentHashtag,
+hashtag: currentFight?.hashtag || "",
                 })
               }
             >
@@ -1514,7 +1514,7 @@ hashtag: currentHashtag,
                   avg,
                   suspect,
                   foty,
-hashtag: currentHashtag,
+hashtag: currentFight?.hashtag || "",
                 })
               }
             >
@@ -1548,7 +1548,7 @@ hashtag: currentHashtag,
                   avg,
                   suspect,
                   foty,
-hashtag: currentHashtag,
+hashtag: currentFight?.hashtag || "",
                 })
               }
             >
@@ -1582,7 +1582,7 @@ hashtag: currentHashtag,
                   avg,
                   suspect,
                   foty,
-hashtag: currentHashtag,
+hashtag: currentFight?.hashtag || "",
                 })
               }
             >
