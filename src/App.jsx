@@ -1372,9 +1372,10 @@ const currentHashtag = currentFight?.hashtag || "";
 
   // いま開いている試合（events優先→なければMOCK）
   const currentFight = useMemo(() => {
-    const fights = (events && events.length ? events : schedule) || [];
-    return fights.find((x) => x.id === fightId) || {};
-  }, [events, schedule, fightId]);
+  const fights = Array.isArray(events) ? events : [];
+  return fights.find((x) => x.id === fightId) || {};
+}, [events, fightId]);
+
 
   // ===== スコアカード（合計の真ん中に合計平均も表示／SNSシェア付き） =====
   const ScoreCard = ({ currentFight }) => {
