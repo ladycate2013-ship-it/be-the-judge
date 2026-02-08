@@ -917,7 +917,7 @@ async function shareScore({
   foty,
 hashtag,
 }) {
-console.log("currentFight.hashtag:", currentFight?.hashtag);
+console.log("currentHashtag:", currentHashtag);
   const avgForText = computeTotalAvgForImage(avg, rounds);
 const fightTag = hashtag || "";
   const text = `【個人採点】${fighterA} vs ${fighterB}
@@ -1302,6 +1302,7 @@ function setRoundScore(i, aVal, bVal) {
     setHomeView("score");
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+const currentHashtag = currentFight?.hashtag || "";
 
   const saveMyScore = () => {
     const totalAvgNow = totalFromAvg(avg);
@@ -1478,7 +1479,7 @@ function setRoundScore(i, aVal, bVal) {
                   avg,
                   suspect,
                   foty,
-hashtag: currentFight?.hashtag || "",
+hashtag: currentHashtag,
                 })
               }
             >
@@ -1512,7 +1513,7 @@ hashtag: currentFight?.hashtag || "",
                   avg,
                   suspect,
                   foty,
-hashtag: currentFight?.hashtag || "",
+hashtag: currentHashtag,
                 })
               }
             >
@@ -1546,7 +1547,7 @@ hashtag: currentFight?.hashtag || "",
                   avg,
                   suspect,
                   foty,
-hashtag: currentFight?.hashtag || "",
+hashtag: currentHashtag,
                 })
               }
             >
@@ -1580,7 +1581,7 @@ hashtag: currentFight?.hashtag || "",
                   avg,
                   suspect,
                   foty,
-hashtag: currentFight?.hashtag || "",
+hashtag: currentHashtag,
                 })
               }
             >
