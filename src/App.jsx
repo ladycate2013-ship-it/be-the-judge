@@ -1374,7 +1374,8 @@ const currentHashtag = currentFight?.hashtag || "";
   }, [events, schedule, fightId]);
 
   // ===== スコアカード（合計の真ん中に合計平均も表示／SNSシェア付き） =====
-  const ScoreCard = () => {
+  const ScoreCard = ({ currentFight }) => {
+  const currentHashtag = currentFight?.hashtag || "";
     return (
       <>
         <div style={styles.title}>SCORECARD</div>
@@ -2951,7 +2952,7 @@ React.useEffect(() => {
     <div style={styles.page}>
       <div style={styles.container}>
         {activeTab === "ホーム" &&
-          (homeView === "list" ? <HomeList /> : <ScoreCard />)}
+          (homeView === "list" ? <HomeList /> : <ScoreCard currentFight={currentFight} />)}
         {activeTab === "履歴" && <History />}
         {activeTab === "MY PAGE" && <MyPage />}
         {activeTab === "PFP投票" && <PfpVote />}
