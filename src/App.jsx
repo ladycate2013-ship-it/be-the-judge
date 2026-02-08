@@ -2956,7 +2956,7 @@ React.useEffect(() => {
     <div style={styles.page}>
       <div style={styles.container}>
         {activeTab === "ホーム" &&
-          (homeView === "list" ? <HomeList /> : <ScoreCard currentFight={currentFight} />)}
+          (homeView === "list" ? <HomeList /> : (() => <ScoreCard currentFight={currentFight || {}} />)()
         {activeTab === "履歴" && <History />}
         {activeTab === "MY PAGE" && <MyPage />}
         {activeTab === "PFP投票" && <PfpVote />}
