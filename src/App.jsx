@@ -906,7 +906,6 @@ async function makeScoreImage({
 
 /// 共有：スコア画像を生成（キャンバス描画）
 async function shareScore({
-console.log("shareScore hashtag:", hashtag);
   platform,
   fightId,
   fighterA,
@@ -918,6 +917,7 @@ console.log("shareScore hashtag:", hashtag);
   foty,
 hashtag,
 }) {
+console.log("shareScore hashtag:", hashtag);
   const avgForText = computeTotalAvgForImage(avg, rounds);
 const fightTag = hashtag || "";
   const text = `【個人採点】${fighterA} vs ${fighterB}
