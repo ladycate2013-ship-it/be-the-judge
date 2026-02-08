@@ -1113,11 +1113,15 @@ const [fighterB, setFighterB] = useState("");
   const [avatarA] = useState("");
   const [avatarB] = useState("");
 
- const EMPTY_ROUNDS = Array.from({ length: DEFAULT_ROUNDS }, (_, i) => ({
-  r: i + 1,
-  a: "",
-  b: "",
-}));
+ const EMPTY_ROUNDS = useMemo(
+  () =>
+    Array.from({ length: DEFAULT_ROUNDS }, (_, i) => ({
+      r: i + 1,
+      a: "",
+      b: "",
+    })),
+  []
+);
 
 const [rounds, setRounds] = useState(EMPTY_ROUNDS);
 
@@ -1274,13 +1278,6 @@ function setRoundScore(i, aVal, bVal) {
     return next;
   });
 }
-
-
-  const EMPTY_ROUNDS = Array.from({ length: DEFAULT_ROUNDS }, (_, i) => ({
-    r: i + 1,
-    a: "",
-    b: "",
-  }));
 
   // 試合読み込み → 採点ビューへ
   const loadFight = (f) => {
