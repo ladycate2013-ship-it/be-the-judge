@@ -958,6 +958,21 @@ const fightTag = hashtag || "";
   a.click();
   setTimeout(() => URL.revokeObjectURL(url), 5000);
 
+
+const t = encodeURIComponent(text);
+
+// 先に開く（ユーザー操作の同期中に実行されるように、shareScoreの冒頭に寄せるのが理想）
+let popup = null;
+if (platform === "x") popup = window.open("about:blank", "_blank");
+if (platform === "reddit") popup = window.open("about:blank", "_blank");
+if (platform === "facebook") popup = window.open("about:blank", "_blank");
+
+// …（ここで await makeScoreImage / ダウンロード処理などやってOK）
+
+// 最後にURLセット
+if (platform === "x" && popup) popup.location.href = `https://twitter.com/intent/tweet?text=${t}`;
+else if (platform === "reddit" && popup) popup.location.href = `https://www.reddit.com/submit?title=${t}`;
+else if (platform === "facebook" && popup) popup.location.href = `https://www.facebook.com/sharer/sharer.php?quote=${t}`;
   // ─ 各サービスへテキスト遷移 ─
   const t = encodeURIComponent(text);
   if (platform === "x") {
@@ -1475,7 +1490,7 @@ function setRoundScore(i, aVal, bVal) {
                   avg,
                   suspect,
                   foty,
-hashtag: h.hashtag || "", 
+hashtag: currentFight?.hashtag || "",
                 })
               }
             >
@@ -1509,7 +1524,7 @@ hashtag: h.hashtag || "",
                   avg,
                   suspect,
                   foty,
-hashtag: h.hashtag || "", 
+hashtag: currentFight?.hashtag || "",
                 })
               }
             >
@@ -1543,7 +1558,7 @@ hashtag: h.hashtag || "",
                   avg,
                   suspect,
                   foty,
-hashtag: h.hashtag || "", 
+hashtag: currentFight?.hashtag || "",
                 })
               }
             >
@@ -1577,7 +1592,7 @@ hashtag: h.hashtag || "",
                   avg,
                   suspect,
                   foty,
-hashtag: h.hashtag || "", 
+hashtag: currentFight?.hashtag || "",
                 })
               }
             >
