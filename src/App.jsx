@@ -1056,7 +1056,7 @@ export default function App() {
 
     let { data, error } = await supabase
       .from("events")
-      .select("uid,title,starts_at,ends_at,location,description")
+      .select("uid,title,starts_at,ends_at,location,description,hashtag")
       .gte("starts_at", pastFromIso)
       .lte("starts_at", futureToIso)
       .order("starts_at", { ascending: true });
@@ -1195,7 +1195,7 @@ useEffect(() => {
 // 過去2件
 const pastReq = supabase
   .from("events")
-  .select("uid, title, starts_at, ends_at, location, description")
+  .select("uid, title, starts_at, ends_at, location, description, hashtag")
   .lt("starts_at", nowIso)
   .order("starts_at", { ascending: false })
   .limit(2);
@@ -1203,7 +1203,7 @@ const pastReq = supabase
 // 未来6件
 const futureReq = supabase
   .from("events")
-  .select("uid, title, starts_at, ends_at, location, description")
+  .select("uid, title, starts_at, ends_at, location, description, hashtag")
   .gte("starts_at", nowIso)
   .order("starts_at", { ascending: true })
   .limit(6);
