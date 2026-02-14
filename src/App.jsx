@@ -974,7 +974,7 @@ if (platform === "x" && popup) popup.location.href = `https://twitter.com/intent
 else if (platform === "reddit" && popup) popup.location.href = `https://www.reddit.com/submit?title=${t}`;
 else if (platform === "facebook" && popup) popup.location.href = `https://www.facebook.com/sharer/sharer.php?quote=${t}`;
   // ─ 各サービスへテキスト遷移 ─
-  const t = encodeURIComponent(text);
+ 
   if (platform === "x") {
     window.open(`https://twitter.com/intent/tweet?text=${t}`, "_blank");
   } else if (platform === "reddit") {
