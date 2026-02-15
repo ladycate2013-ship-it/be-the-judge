@@ -266,10 +266,14 @@ const makeFightFromEvent = (ev) => {
   };
 
 const { a, b } = pickFighters(ev.title, ev.description);
-const hashtag = ev?.hashtag || ev?.fight_tag || "";
-  const platform = detectWatchPlatform(
-    `${ev.title || ""} ${ev.description || ""}`
-  );
+
+const desc = ev?.description ?? "";
+const autoTag = desc.match(/#[^\s]+/)?.[0] || "";
+const hashtag = ev?.hashtag || autoTag;
+
+const platform = detectWatchPlatform(
+  `${ev.title || ""} ${ev.description || ""}`
+);
   const start = ev.starts_at ? new Date(ev.starts_at) : null;
 
   // 日付（従来仕様）
