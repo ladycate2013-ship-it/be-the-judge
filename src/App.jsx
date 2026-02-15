@@ -178,6 +178,30 @@ export const FIGHTER_IMAGES = {
   [normalizeImageKey("Lerato Dlamini")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/02/Gemini_Generated_Image_shltgoshltgoshlt.png",
 
+[normalizeImageKey("エマヌエル・ナバレッテ")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/02/navarr.jpg",
+  [normalizeImageKey("Emanuel Navarrete")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/02/navarr.jpg",
+
+[normalizeImageKey("マリオ・バリオス")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/02/barios.jpg",
+  [normalizeImageKey("Mario Barrios")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/02/barios.jpg",
+
+[normalizeImageKey("エドゥアルド・ヌニェス")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/02/vete.jpg",
+  [normalizeImageKey("Eduardo Nunez")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/02/vete.jpg",
+
+[normalizeImageKey("ジェシー・ロドリゲス")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/02/bam.jpg",
+  [normalizeImageKey("Jesse Rodríguez")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/02/bam.jpg",
+
+[normalizeImageKey("カネロ・アルバレス")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/02/canelo.jpg",
+  [normalizeImageKey("Canelo Álvarez")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/02/canelo.jpg",
 
 };
 
