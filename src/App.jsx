@@ -203,6 +203,31 @@ export const FIGHTER_IMAGES = {
   [normalizeImageKey("Canelo Álvarez")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/02/canelo.jpg",
 
+[normalizeImageKey("ジェームズ・ディケンズ")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/03/dickens.jpg",
+[normalizeImageKey("James Dickens")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/03/dickens.jpg",
+
+[normalizeImageKey("アンソニー・カカーチェ")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/03/cacace.jpg",
+[normalizeImageKey("Anthony Cacace")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/03/cacace.jpg",
+
+[normalizeImageKey("アンソニー・オラスクアガ")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/03/orasu.jpg",
+[normalizeImageKey("Anthony Olascuaga")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/03/orasu.jpg",
+
+[normalizeImageKey("ノニト・ドネア")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/03/donaire.jpg",
+[normalizeImageKey("Nonito Donaire")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/03/donaire.jpg",
+
+[normalizeImageKey("増田陸")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/03/riku.jpg",
+[normalizeImageKey("Riku Masuda")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/03/riku.jpg",
+
 };
 
 // 読み取りヘルパー
