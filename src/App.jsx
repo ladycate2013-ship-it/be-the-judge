@@ -1320,7 +1320,7 @@ if (alive) setSchedule(merged.map(makeFightFromEvent));
     "ディミトリー・ビボル",
     "デビット・ベナビデス",
     "中谷潤人",
-    "寺地拳四朗",
+    "エマヌエル・ナバレッテ",
     "ジャロン・エニス",
     "デヴィン・ヘイニー",
     "ジェシー・ロドリゲス",
@@ -1376,9 +1376,7 @@ function setRoundScore(i, aVal, bVal) {
     const map = JSON.parse(localStorage.getItem("rounds_map") || "{}");
     setRounds(map[f.id] || EMPTY_ROUNDS);
 
-    // ★ ここが重要：ダミー 9.8 / 9.2 はもう使わない
-    //    将来 DB から avg を持ってくるなら f.avg を優先
-    if (Array.isArray(f.avg) && f.avg.length) {
+       if (Array.isArray(f.avg) && f.avg.length) {
       setAvg(f.avg); // みんなの平均（将来用）
     } else {
       setAvg(EMPTY_AVG); // 何もなければ空
@@ -2531,7 +2529,7 @@ const SURVEY_CONFIG = {
     "その他",
   ],
   // 期限（日本時間でOK。Dateに読める形ならOK）
-  endsAt: "2026-03-9T00:00:00+09:00",
+  endsAt: "2026-04-06T00:00:00+09:00",
   // 結果は投票後だけ見せたいなら true
   showResultsOnlyAfterVote: true,
 };
