@@ -27,12 +27,12 @@ export const FIGHTER_IMAGES = {
   [normalizeImageKey("O'Shaquie Foster")]:
     "http://boxingdiagrams.com/wp-content/uploads/2025/12/Gemini_Generated_Image_w6pvvhw6pvvhw6pv.png",
 
-  [normalizeImageKey("フルトン")]:
+  [normalizeImageKey("スティーブン・フルトン")]:
     "http://boxingdiagrams.com/wp-content/uploads/2025/12/Gemini_Generated_Image_vrffi3vrffi3vrff.png",
   [normalizeImageKey("Stephen Fulton")]:
     "http://boxingdiagrams.com/wp-content/uploads/2025/12/Gemini_Generated_Image_vrffi3vrffi3vrff.png",
 
-  [normalizeImageKey("ドネア")]:
+  [normalizeImageKey("ノニト・ドネア")]:
     "http://boxingdiagrams.com/wp-content/uploads/2025/12/Gemini_Generated_Image_7gtrya7gtrya7gtr.png",
   [normalizeImageKey("Nonito Donaire")]:
     "http://boxingdiagrams.com/wp-content/uploads/2025/12/Gemini_Generated_Image_7gtrya7gtrya7gtr.png",
@@ -227,6 +227,26 @@ export const FIGHTER_IMAGES = {
     "http://boxingdiagrams.com/wp-content/uploads/2026/03/riku.jpg",
 [normalizeImageKey("Riku Masuda")]:
     "http://boxingdiagrams.com/wp-content/uploads/2026/03/riku.jpg",
+
+[normalizeImageKey("アルツール・ベテルビエフ")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/03/betrviev.jpg",
+[normalizeImageKey("Artur Beterbiev")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/03/betrviev.jpg",
+
+[normalizeImageKey("ディミトリー・ビボル")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/03/ennis.jpg",
+[normalizeImageKey("Dmitry Bivol")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/03/ennis.jpg",
+
+[normalizeImageKey("ジャロン・エニス")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/03/ennis.jpg",
+[normalizeImageKey("Jaron Ennis")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/03/ennis.jpg",
+
+[normalizeImageKey("デビット・ベナビデス")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/03/benavidez.jpg",
+[normalizeImageKey("David Benavidez")]:
+    "http://boxingdiagrams.com/wp-content/uploads/2026/03/benavidez.jpg",
 
 };
 
@@ -1293,7 +1313,7 @@ if (alive) setSchedule(merged.map(makeFightFromEvent));
     "井上尚弥",
     "ジャーボンティ・デービス",
     "オレクサンドル・ウシク",
-    "サウル・アルバレス",
+    "カネロ・アルバレス",
     "テオフィモ・ロペス",
     "シャクール・スティーブンソン",
     "アルツール・ベテルビエフ",
