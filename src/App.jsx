@@ -9,9 +9,9 @@ function normalizeImageKey(name = "") {
 // ここに "選手名 → 画像URL" を登録していく
 export const FIGHTER_IMAGES = {
   [normalizeImageKey("井上尚弥")]:
-    "https://boxingdiagrams.com/wp-content/uploads/2025/12/Gemini_Generated_Image_iibpbiiibpbiiibp.png",
+    "https://boxingdiagrams.com/wp-content/uploads/2026/03/inoue.jpg",
   [normalizeImageKey("Naoya Inoue")]:
-    "https://boxingdiagrams.com/wp-content/uploads/2025/12/Gemini_Generated_Image_iibpbiiibpbiiibp.png",
+    "https://boxingdiagrams.com/wp-content/uploads/2026/03/inoue.jpg",
   [normalizeImageKey("テオフモ・ロペス")]:
     "https://boxingdiagrams.com/wp-content/uploads/2025/12/teofimo.png",
   [normalizeImageKey("Teofimo Lopez")]:
